@@ -41,4 +41,9 @@ public class Question {
     public String getAnswer() {
         return myAnswer;
     }
+
+    public boolean isCorrect(final String theGiven) {
+        if(myAnswer == theGiven) {return true;}
+        else{return false;}
+    }
 }
