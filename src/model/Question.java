@@ -15,7 +15,6 @@ public class Question {
 
     /**
      * Constructor for Question using a given Question and Answer.
-     *
      * @param theQuestion the given question.
      * @param theAnswer the given answer.
      */
@@ -26,7 +25,6 @@ public class Question {
 
     /**
      * Returns the Question String.
-     *
      * @return the Question String.
      */
     public String getQuestion() {
@@ -35,13 +33,16 @@ public class Question {
 
     /**
      * Returns the Answer String.
-     *
      * @return the Answer String.
      */
     public String getAnswer() {
         return myAnswer;
     }
 
+    /**
+     * Checks if the given string is equal to myAnswer.
+     * @return true if the strings match, false if they don't.
+     */
     public boolean isCorrect(final String theGiven) {
         if(myAnswer == theGiven) {return true;}
         else{return false;}

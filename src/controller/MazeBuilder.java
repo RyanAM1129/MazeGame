@@ -11,32 +11,22 @@ public class MazeBuilder {
         Room[][] myRooms = new Room[theSize][theSize];
 
         for (int i = 0; i < theSize - 1; i++) {
-            for (int j = 0; j < theSize; j++) {
+            for (int j = 0; j < theSize - 1; j++) {
                 myVerticalDoors[i][j] = new Door(
+                        //Temporary Statement until SQL Support.
                         new Question("VerticalQuestion " + i + ", " + j + ")",
                                 "VerticalAnswer (" + i + ", " + j + ")"));
             }
         }
 
-//        for(Door[] row : myVerticalDoors) {
-//            for(Door door : row) {
-//                door = new Door(new Question("VerticalQuestion", "VerticalAnswer"));
-//            }
-//        }
-
         for (int i = 0; i < theSize - 1; i++) {
             for (int j = 0; j < theSize; j++) {
                 myHorizontalDoors[i][j] = new Door(
-                        new Question("HorizontalQuestion " + i + ", " + j + ")",
+                        //Temporary Statement until SQL Support.
+                        new Question("HorizontalQuestion (" + i + ", " + j + ")",
                                 "HorizontalAnswer (" + i + ", " + j + ")"));
             }
         }
-
-//        for(Door[] row : myHorizontalDoors) {
-//            for(Door door : row) {
-//                door = new Door(new Question("HorizontalQuestion", "HorizontalAnswer"));
-//            }
-//        }
 
         //First Row / First Column
         myRooms[0][0] = new Room(null, null, myHorizontalDoors[0][0],
