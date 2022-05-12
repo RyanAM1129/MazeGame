@@ -60,5 +60,9 @@ public class MultipleQuestion {
         }
         return size;
     }
-
+    
+    public Question getQuestion() {
+		Question temp = questions.poll();
+		return temp;
+	}
 }
