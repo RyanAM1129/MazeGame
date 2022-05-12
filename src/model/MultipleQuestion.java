@@ -2,62 +2,63 @@ package Question;
 
 import org.sqlite.SQLiteDataSource;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
 
 
 public class MultipleQuestion {
+    private Queue<Question> questions = new LinkedList<Question>();;
+    private int size;
+    SQLiteDataSource ds;
 
-    private static final ArrayList<String> Question = new ArrayList<>();
-
-    private static final ArrayList<String> Answer = new ArrayList<>();
-
-    private static final ArrayList<String> Wrong = new ArrayList<>();
-    String[][]WrongSet;
-    private static int Number = 0;
-    /*
-     *
-     */
-    public static void getFromDatabase() {
-        SQLiteDataSource ds = new SQLiteDataSource();
+    private Queue<Question> getQuestionFromDatabase() {
+        ds = new SQLiteDataSource();
         ds.setUrl("jdbc:sqlite:Question.db");
         String query = "SELECT * FROM MultipleChoice";
+        size = getQuestionLength();
+        Question[] questionList = new Question[size];
         try (Connection conn = ds.getConnection();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
-
+            int i = 0;
             while (rs.next()) {
                 String question = rs.getString("Question");
                 String CorrectAnswer = rs.getString("Correct");
                 String theWrong1 = rs.getString("Wrong1");
                 String theWrong2 = rs.getString("Wrong2");
                 String theWrong3 = rs.getString("Wrong3");
-                Wrong.add(theWrong1);
-                Wrong.add(theWrong2);
-                Wrong.add(theWrong3);
-                Question.add(question);
-                Answer.add(CorrectAnswer);
+                questionList[i] = new MultipleChoice(question, CorrectAnswer, theWrong1, theWrong2, theWrong3);
+                i++;
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
             System.exit(0);
         }
+        Collections.addAll(questions, questionList);
+        return questions;
     }
-    public static Question setQuestion() {
-        return new Question(getQuestion(), getAnswer());
+    /*
+     *get the size of the question in database
+     */
+    private int getQuestionLength() {
+
+        try (Connection conn = ds.getConnection();
+             Statement stmt = conn.createStatement()) {
+            String query = "SELECT * FROM MultipleChoice";
+            ResultSet rs = stmt.executeQuery(query);
+            size = rs.getInt(1);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+        return size;
     }
 
-    private static String getAnswer() {
-        return Answer.get(Number);//get the exactly same number in the answer list as the question answer
-    }
-
-
-    private static String getQuestion() {
-        return Question.get(Number);//May use another method to randomize the Number value
-    }
 }
