@@ -9,6 +9,10 @@ public class MultipleChoice extends Question {
      * Should never be larger than 3.
      */
     private final String[] myWrong;
+    /**
+     * A String representing the type of question.
+     */
+    final static String myType = "MC";
 
     /**
      * Constructor that receives three String Literals as parameters

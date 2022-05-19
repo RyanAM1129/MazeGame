@@ -71,4 +71,15 @@ public class RoomTest {
         Door actual = myTestRoom.getEastDoor();
         assertEquals("The Doors do not equal.", expected, actual);
     }
+
+    /**
+     * Tests the visit() method.
+     */
+    @Test
+    public void visitTest() {
+        boolean expected = true;
+        myTestRoom.visit();
+        boolean actual = myTestRoom.hasBeenVisited();
+        assertEquals("The room has not been visited.", expected, actual);
+    }
 }
