@@ -1,6 +1,7 @@
 package test;
 
 import model.Door;
+import model.MultipleChoice;
 import model.Question;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +35,16 @@ public class DoorTest {
     @Test
     public void getQuestionTest() {
         Question myExpected = myTestQuestion;
+        Question myActual = myTestDoor.getQuestion();
+        assertEquals("The doors do not equal.", myExpected, myActual);
+    }
+
+    /**
+     * Tests the getQuestion with a MultipleChoice.
+     */
+    @Test
+    public void getQuestionMCTest() {
+        Question myExpected = new MultipleChoice("Q", "A", "W1", "W2", "W3");
         Question myActual = myTestDoor.getQuestion();
         assertEquals("The doors do not equal.", myExpected, myActual);
     }

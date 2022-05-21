@@ -2,32 +2,34 @@ package controller;
 
 import model.MultipleChoice;
 import model.Question;
+import model.TrueFalse;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Stack;
 
 public class QuestionBuilder {
     int myTotalQuestionCount;
-    int myShortAnswerCount;
     int myMultipleChoiceCount;
-    Question[] myShortAnswer;
-    MultipleChoice[] myMultipleChoice;
+    int myShortAnswerCount;
+    int myTrueFalseCount;
+    Stack<MultipleChoice> myMultipleChoice;
+    Stack<Question> myShortAnswer;
+    Stack<TrueFalse> myTrueFalse;
     SQLiteDataSource myDataSource;
     Connection myConnection;
     Statement myStatement;
 
     public QuestionBuilder(final int theN) {
         myTotalQuestionCount = theN;
-        //Need to know how many short answer questions we want
-        determineRatio(80);
-        //Need to decide how to organize DataBase.
+        determineRatio();
         establishConnection("jdbc:sqlite:questions.db");
-        //Need to decide name of database
-        myShortAnswer = buildShortAnswers();
         myMultipleChoice = buildMultipleChoices();
+        myShortAnswer = buildShortAnswers();
+        myTrueFalse = buildTrueFalse();
     }
 
     private void establishConnection(final String theURL) {
@@ -41,32 +43,19 @@ public class QuestionBuilder {
             System.exit(0);
         }
     }
-    private Question[] buildShortAnswers() {
-        final String query = "SELECT * FROM short_answer ORDER BY RANDOM() LIMIT 1;";
-        ResultSet myQuestionData;
-        Question[] myQuestionSet = new Question[myShortAnswerCount];
-        String myQuestionString;
-        String myAnswerString;
-        int myIndex = 0;
-        try{
-            myQuestionData = myStatement.executeQuery(query);
-            for (int i = 0; i < myTotalQuestionCount; i++) {
-                myQuestionData.next();
-                myQuestionString = myQuestionData.getString("QUESTION");
-                myAnswerString = myQuestionData.getString("ANSWER");
-                myQuestionSet[i] = new Question(myQuestionString, myAnswerString);
-            }
-        } catch (SQLException theException) {
-            theException.printStackTrace();
-            System.exit(0);
-        }
-        return myQuestionSet;
+
+    private void determineRatio() {
+        myMultipleChoiceCount = myTotalQuestionCount / 2;
+        myShortAnswerCount = myTotalQuestionCount / 5;
+        myTrueFalseCount = myTotalQuestionCount -
+                (myMultipleChoiceCount + myShortAnswerCount);
     }
 
-    private MultipleChoice[] buildMultipleChoices() {
-        final String query = "SELECT * FROM multiple_choice ORDER BY RANDOM() LIMIT 1;";
+    private Stack<MultipleChoice> buildMultipleChoices() {
+        final String query = "SELECT * FROM multiple_choice ORDER BY RANDOM() LIMIT " +
+                myMultipleChoiceCount + ";";
         ResultSet myQuestionData;
-        MultipleChoice[] myQuestionSet = new MultipleChoice[myMultipleChoiceCount];
+        Stack<MultipleChoice> myQuestionSet = new Stack<>();
         String myQuestionString;
         String myAnswerString;
         String myWrong1;
@@ -75,15 +64,14 @@ public class QuestionBuilder {
         int myIndex = 0;
         try{
             myQuestionData = myStatement.executeQuery(query);
-            for (int i = 0; i < myTotalQuestionCount; i++) {
-                myQuestionData.next();
+            while (myQuestionData.next()) {
                 myQuestionString = myQuestionData.getString("QUESTION");
                 myAnswerString = myQuestionData.getString("ANSWER");
                 myWrong1 = myQuestionData.getString("WRONG1");
                 myWrong2 = myQuestionData.getString("WRONG2");
                 myWrong3 = myQuestionData.getString("WRONG3");
-                myQuestionSet[i] = new MultipleChoice(myQuestionString, myAnswerString,
-                        myWrong1, myWrong2, myWrong3);
+                myQuestionSet.push(new MultipleChoice(myQuestionString, myAnswerString,
+                        myWrong1, myWrong2, myWrong3));
             }
         } catch (SQLException theException) {
             theException.printStackTrace();
@@ -92,17 +80,71 @@ public class QuestionBuilder {
         return myQuestionSet;
     }
 
-    private void determineRatio(final int thePercent) {
-        final double theScalar = thePercent / 100;
-        myShortAnswerCount = (int) (myTotalQuestionCount * theScalar);
-        myMultipleChoiceCount = myTotalQuestionCount - myShortAnswerCount;
+    private Stack<Question> buildShortAnswers() {
+        final String query = "SELECT * FROM short_answer ORDER BY RANDOM() LIMIT " +
+                myShortAnswerCount + ";";
+        ResultSet myQuestionData;
+        Stack<Question> myQuestionSet = new Stack<>();
+        String myQuestionString;
+        String myAnswerString;
+        int myIndex = 0;
+        try{
+            myQuestionData = myStatement.executeQuery(query);
+            while (myQuestionData.next()) {
+                myQuestionString = myQuestionData.getString("QUESTION");
+                myAnswerString = myQuestionData.getString("ANSWER");
+                myQuestionSet.push(new Question(myQuestionString, myAnswerString));
+            }
+        } catch (SQLException theException) {
+            theException.printStackTrace();
+            System.exit(0);
+        }
+        return myQuestionSet;
     }
 
-    public Question getShortAnswer(final int theIndex) {
-        return myShortAnswer[theIndex];
+    private Stack<TrueFalse> buildTrueFalse() {
+        final String query = "SELECT * FROM true_false ORDER BY RANDOM() LIMIT " +
+                myTrueFalseCount + ";";
+        ResultSet myQuestionData;
+        Stack<TrueFalse> myQuestionSet = new Stack<>();
+        String myQuestionString;
+        String myAnswerString;
+        int myIndex = 0;
+        try{
+            myQuestionData = myStatement.executeQuery(query);
+            while (myQuestionData.next()) {
+                myQuestionString = myQuestionData.getString("QUESTION");
+                myAnswerString = myQuestionData.getString("ANSWER");
+                myQuestionSet.push(new TrueFalse(myQuestionString, myAnswerString));
+            }
+        } catch (SQLException theException) {
+            theException.printStackTrace();
+            System.exit(0);
+        }
+        return myQuestionSet;
     }
 
-    public MultipleChoice getMultipleChoice(final int theIndex) {
-        return myMultipleChoice[theIndex];
+    public MultipleChoice getMultipleChoice() {
+        if (myMultipleChoice.size() > 0) {
+            return myMultipleChoice.pop();
+        } else {
+            return null;
+        }
+    }
+
+    public Question getShortAnswer() {
+        if (myShortAnswer.size() > 0) {
+            return myShortAnswer.pop();
+        } else {
+            return null;
+        }
+    }
+
+    public TrueFalse getTrueFalse() {
+        if (myTrueFalse.size() > 0) {
+            return myTrueFalse.pop();
+        } else {
+            return null;
+        }
     }
 }
