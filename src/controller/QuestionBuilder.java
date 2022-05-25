@@ -1,6 +1,7 @@
 package controller;
 
 import model.MultipleChoice;
+import model.NewQuestion;
 import model.Question;
 import model.TrueFalse;
 import org.sqlite.SQLiteDataSource;
@@ -16,9 +17,9 @@ public class QuestionBuilder {
     int myMultipleChoiceCount;
     int myShortAnswerCount;
     int myTrueFalseCount;
-    Stack<MultipleChoice> myMultipleChoice;
-    Stack<Question> myShortAnswer;
-    Stack<TrueFalse> myTrueFalse;
+    Stack<NewQuestion> myMultipleChoice;
+    Stack<NewQuestion> myShortAnswer;
+    Stack<NewQuestion> myTrueFalse;
     SQLiteDataSource myDataSource;
     Connection myConnection;
     Statement myStatement;
@@ -51,27 +52,23 @@ public class QuestionBuilder {
                 (myMultipleChoiceCount + myShortAnswerCount);
     }
 
-    private Stack<MultipleChoice> buildMultipleChoices() {
+    private Stack<NewQuestion> buildMultipleChoices() {
         final String query = "SELECT * FROM multiple_choice ORDER BY RANDOM() LIMIT " +
                 myMultipleChoiceCount + ";";
         ResultSet myQuestionData;
-        Stack<MultipleChoice> myQuestionSet = new Stack<>();
+        Stack<NewQuestion> myQuestionSet = new Stack<>();
         String myQuestionString;
-        String myAnswerString;
-        String myWrong1;
-        String myWrong2;
-        String myWrong3;
-        int myIndex = 0;
+        Stack<String> myAnswers;
         try{
+            myAnswers = new Stack<>();
             myQuestionData = myStatement.executeQuery(query);
             while (myQuestionData.next()) {
                 myQuestionString = myQuestionData.getString("QUESTION");
-                myAnswerString = myQuestionData.getString("ANSWER");
-                myWrong1 = myQuestionData.getString("WRONG1");
-                myWrong2 = myQuestionData.getString("WRONG2");
-                myWrong3 = myQuestionData.getString("WRONG3");
-                myQuestionSet.push(new MultipleChoice(myQuestionString, myAnswerString,
-                        myWrong1, myWrong2, myWrong3));
+                myAnswers.push(myQuestionData.getString("WRONG1"));
+                myAnswers.push(myQuestionData.getString("WRONG2"));
+                myAnswers.push(myQuestionData.getString("WRONG3"));
+                myAnswers.push(myQuestionData.getString("ANSWER"));
+                myQuestionSet.push(new NewQuestion(myQuestionString, (Stack<String>) myAnswers.clone()));
             }
         } catch (SQLException theException) {
             theException.printStackTrace();
@@ -80,20 +77,20 @@ public class QuestionBuilder {
         return myQuestionSet;
     }
 
-    private Stack<Question> buildShortAnswers() {
+    private Stack<NewQuestion> buildShortAnswers() {
         final String query = "SELECT * FROM short_answer ORDER BY RANDOM() LIMIT " +
-                myShortAnswerCount + ";";
+                myMultipleChoiceCount + ";";
         ResultSet myQuestionData;
-        Stack<Question> myQuestionSet = new Stack<>();
+        Stack<NewQuestion> myQuestionSet = new Stack<>();
         String myQuestionString;
-        String myAnswerString;
-        int myIndex = 0;
+        Stack<String> myAnswers;
         try{
+            myAnswers = new Stack<>();
             myQuestionData = myStatement.executeQuery(query);
             while (myQuestionData.next()) {
                 myQuestionString = myQuestionData.getString("QUESTION");
-                myAnswerString = myQuestionData.getString("ANSWER");
-                myQuestionSet.push(new Question(myQuestionString, myAnswerString));
+                myAnswers.push(myQuestionData.getString("ANSWER"));
+                myQuestionSet.push(new NewQuestion(myQuestionString, (Stack<String>) myAnswers.clone()));
             }
         } catch (SQLException theException) {
             theException.printStackTrace();
@@ -102,20 +99,20 @@ public class QuestionBuilder {
         return myQuestionSet;
     }
 
-    private Stack<TrueFalse> buildTrueFalse() {
+    private Stack<NewQuestion> buildTrueFalse() {
         final String query = "SELECT * FROM true_false ORDER BY RANDOM() LIMIT " +
-                myTrueFalseCount + ";";
+                myMultipleChoiceCount + ";";
         ResultSet myQuestionData;
-        Stack<TrueFalse> myQuestionSet = new Stack<>();
+        Stack<NewQuestion> myQuestionSet = new Stack<>();
         String myQuestionString;
-        String myAnswerString;
-        int myIndex = 0;
+        Stack<String> myAnswers;
         try{
+            myAnswers = new Stack<>();
             myQuestionData = myStatement.executeQuery(query);
             while (myQuestionData.next()) {
                 myQuestionString = myQuestionData.getString("QUESTION");
-                myAnswerString = myQuestionData.getString("ANSWER");
-                myQuestionSet.push(new TrueFalse(myQuestionString, myAnswerString));
+                myAnswers.push(myQuestionData.getString("ANSWER"));
+                myQuestionSet.push(new NewQuestion(myQuestionString, (Stack<String>) myAnswers.clone()));
             }
         } catch (SQLException theException) {
             theException.printStackTrace();
@@ -124,7 +121,7 @@ public class QuestionBuilder {
         return myQuestionSet;
     }
 
-    public MultipleChoice getMultipleChoice() {
+    public NewQuestion getMultipleChoice() {
         if (myMultipleChoice.size() > 0) {
             return myMultipleChoice.pop();
         } else {
@@ -132,7 +129,7 @@ public class QuestionBuilder {
         }
     }
 
-    public Question getShortAnswer() {
+    public NewQuestion getShortAnswer() {
         if (myShortAnswer.size() > 0) {
             return myShortAnswer.pop();
         } else {
@@ -140,7 +137,7 @@ public class QuestionBuilder {
         }
     }
 
-    public TrueFalse getTrueFalse() {
+    public NewQuestion getTrueFalse() {
         if (myTrueFalse.size() > 0) {
             return myTrueFalse.pop();
         } else {
