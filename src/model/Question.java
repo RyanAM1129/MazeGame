@@ -12,6 +12,10 @@ public class Question {
      * A string containing the 'Answer'.
      */
     private final String myAnswer;
+    /**
+     * A String representing the type of question.
+     */
+    final static String myType = "SA";
 
     /**
      * Constructor for Question using a given Question and Answer.
@@ -44,7 +48,6 @@ public class Question {
      * @return true if the strings match, false if they don't.
      */
     public boolean isCorrect(final String theGiven) {
-        if(myAnswer == theGiven) {return true;}
-        else{return false;}
+        return myAnswer.equals(theGiven);
     }
 }

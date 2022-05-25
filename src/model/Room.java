@@ -1,10 +1,11 @@
 package model;
 
 public class Room {
-    private Door myNorthDoor;
-    private Door myWestDoor;
-    private Door mySouthDoor;
-    private Door myEastDoor;
+    private final Door myNorthDoor;
+    private final Door myWestDoor;
+    private final Door mySouthDoor;
+    private final Door myEastDoor;
+    private boolean myBeenVisited;
 
     public Room(final Door theNorthDoor, final Door theWestDoor,
                 final Door theSouthDoor, final Door theEastDoor){
@@ -12,6 +13,7 @@ public class Room {
         myWestDoor = theWestDoor;
         mySouthDoor = theSouthDoor;
         myEastDoor = theEastDoor;
+        myBeenVisited = false;
     }
 
     public Door getNorthDoor() {
@@ -28,5 +30,13 @@ public class Room {
 
     public Door getEastDoor() {
         return myEastDoor;
+    }
+
+    public boolean hasBeenVisited() {
+        return myBeenVisited;
+    }
+
+    public void visit() {
+        myBeenVisited = true;
     }
 }
