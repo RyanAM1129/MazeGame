@@ -1,15 +1,13 @@
 package controller;
 
-import model.MultipleChoice;
-import model.NewQuestion;
 import model.Question;
-import model.TrueFalse;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Random;
 import java.util.Stack;
 
 public class QuestionBuilder {
@@ -17,9 +15,9 @@ public class QuestionBuilder {
     int myMultipleChoiceCount;
     int myShortAnswerCount;
     int myTrueFalseCount;
-    Stack<NewQuestion> myMultipleChoice;
-    Stack<NewQuestion> myShortAnswer;
-    Stack<NewQuestion> myTrueFalse;
+    Stack<Question> myMultipleChoice;
+    Stack<Question> myShortAnswer;
+    Stack<Question> myTrueFalse;
     SQLiteDataSource myDataSource;
     Connection myConnection;
     Statement myStatement;
@@ -52,11 +50,11 @@ public class QuestionBuilder {
                 (myMultipleChoiceCount + myShortAnswerCount);
     }
 
-    private Stack<NewQuestion> buildMultipleChoices() {
+    private Stack<Question> buildMultipleChoices() {
         final String query = "SELECT * FROM multiple_choice ORDER BY RANDOM() LIMIT " +
                 myMultipleChoiceCount + ";";
         ResultSet myQuestionData;
-        Stack<NewQuestion> myQuestionSet = new Stack<>();
+        Stack<Question> myQuestionSet = new Stack<>();
         String myQuestionString;
         Stack<String> myAnswers;
         try{
@@ -68,7 +66,8 @@ public class QuestionBuilder {
                 myAnswers.push(myQuestionData.getString("WRONG2"));
                 myAnswers.push(myQuestionData.getString("WRONG3"));
                 myAnswers.push(myQuestionData.getString("ANSWER"));
-                myQuestionSet.push(new NewQuestion(myQuestionString, (Stack<String>) myAnswers.clone()));
+                myQuestionSet.push(new Question(myQuestionString, (Stack<String>) myAnswers.clone()));
+                myAnswers.clear();
             }
         } catch (SQLException theException) {
             theException.printStackTrace();
@@ -77,11 +76,11 @@ public class QuestionBuilder {
         return myQuestionSet;
     }
 
-    private Stack<NewQuestion> buildShortAnswers() {
+    private Stack<Question> buildShortAnswers() {
         final String query = "SELECT * FROM short_answer ORDER BY RANDOM() LIMIT " +
                 myMultipleChoiceCount + ";";
         ResultSet myQuestionData;
-        Stack<NewQuestion> myQuestionSet = new Stack<>();
+        Stack<Question> myQuestionSet = new Stack<>();
         String myQuestionString;
         Stack<String> myAnswers;
         try{
@@ -90,7 +89,8 @@ public class QuestionBuilder {
             while (myQuestionData.next()) {
                 myQuestionString = myQuestionData.getString("QUESTION");
                 myAnswers.push(myQuestionData.getString("ANSWER"));
-                myQuestionSet.push(new NewQuestion(myQuestionString, (Stack<String>) myAnswers.clone()));
+                myQuestionSet.push(new Question(myQuestionString, (Stack<String>) myAnswers.clone()));
+                myAnswers.clear();
             }
         } catch (SQLException theException) {
             theException.printStackTrace();
@@ -99,11 +99,11 @@ public class QuestionBuilder {
         return myQuestionSet;
     }
 
-    private Stack<NewQuestion> buildTrueFalse() {
+    private Stack<Question> buildTrueFalse() {
         final String query = "SELECT * FROM true_false ORDER BY RANDOM() LIMIT " +
                 myMultipleChoiceCount + ";";
         ResultSet myQuestionData;
-        Stack<NewQuestion> myQuestionSet = new Stack<>();
+        Stack<Question> myQuestionSet = new Stack<>();
         String myQuestionString;
         Stack<String> myAnswers;
         try{
@@ -112,7 +112,8 @@ public class QuestionBuilder {
             while (myQuestionData.next()) {
                 myQuestionString = myQuestionData.getString("QUESTION");
                 myAnswers.push(myQuestionData.getString("ANSWER"));
-                myQuestionSet.push(new NewQuestion(myQuestionString, (Stack<String>) myAnswers.clone()));
+                myQuestionSet.push(new Question(myQuestionString, (Stack<String>) myAnswers.clone()));
+                myAnswers.clear();
             }
         } catch (SQLException theException) {
             theException.printStackTrace();
@@ -121,7 +122,7 @@ public class QuestionBuilder {
         return myQuestionSet;
     }
 
-    public NewQuestion getMultipleChoice() {
+    public Question getMultipleChoice() {
         if (myMultipleChoice.size() > 0) {
             return myMultipleChoice.pop();
         } else {
@@ -129,7 +130,7 @@ public class QuestionBuilder {
         }
     }
 
-    public NewQuestion getShortAnswer() {
+    public Question getShortAnswer() {
         if (myShortAnswer.size() > 0) {
             return myShortAnswer.pop();
         } else {
@@ -137,11 +138,44 @@ public class QuestionBuilder {
         }
     }
 
-    public NewQuestion getTrueFalse() {
+    public Question getTrueFalse() {
         if (myTrueFalse.size() > 0) {
             return myTrueFalse.pop();
         } else {
             return null;
         }
+    }
+
+    public Question getQuestion() {
+        Random myRandom = new Random();
+        int myRandomChoice = myRandom.nextInt(4);
+        Question myQuestion = null;
+        boolean tryAgain = true;
+        while(tryAgain) {
+            switch (myRandomChoice) {
+                case 1:
+                    if (!myMultipleChoice.isEmpty()) {
+                        myQuestion = myMultipleChoice.pop();
+                        tryAgain = false;
+                    } else {
+                        myRandomChoice = 2;
+                    }
+                case 2:
+                    if (!myShortAnswer.isEmpty()) {
+                        myQuestion = myShortAnswer.pop();
+                        tryAgain = false;
+                    } else {
+                        myRandomChoice = 3;
+                    }
+                case 3:
+                    if (!myTrueFalse.isEmpty()) {
+                        myQuestion = myTrueFalse.pop();
+                        tryAgain = false;
+                    } else {
+                        myRandomChoice = 1;
+                    }
+            }
+        }
+        return myQuestion;
     }
 }

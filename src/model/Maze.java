@@ -11,8 +11,8 @@ public class Maze {
     public Maze(final int theSize) {
         mySize = theSize;
         myRooms = MazeBuilder.buildRooms(mySize);
-        myCurrentRow = 3;
-        myCurrentColumn = 3;
+        myCurrentRow = 2;
+        myCurrentColumn = 2;
     }
 
     public Room[][] getBoard() {
@@ -33,5 +33,44 @@ public class Maze {
 
     public Room getLocation(int theRow, int theColumn) {
         return myRooms[theRow][theColumn];
+    }
+
+    public Room getCurrentLocation() {
+        return myRooms[myCurrentRow][myCurrentColumn];
+    }
+
+    public void moveNorth() {
+        myCurrentRow--;
+    }
+
+    public void moveWest() {
+        myCurrentColumn--;
+    }
+
+    public void moveSouth() {
+        myCurrentRow++;
+    }
+
+    public void moveEast() {
+        myCurrentColumn++;
+    }
+
+    public String toString() {
+        StringBuilder myStr = new StringBuilder();
+        for (int i = 0; i < mySize; i++) {
+            for (int j = 0; j < mySize; j++) {
+                if(myCurrentRow == i && myCurrentColumn == j) {
+                    myStr.append("0");
+                } else if(!myRooms[i][j].hasBeenVisited()) {
+                    myStr.append("?");
+                } else if (myRooms[i][j].hasBeenVisited() && myRooms[i][j].hasPath()) {
+                    myStr.append("+");
+                } else {
+                    myStr.append("X");
+                }
+            }
+            myStr.append("\n");
+        }
+        return myStr.toString();
     }
 }

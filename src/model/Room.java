@@ -39,4 +39,13 @@ public class Room {
     public void visit() {
         myBeenVisited = true;
     }
+
+    public boolean hasPath() {
+        if(!myNorthDoor.getLockStatus() || !myWestDoor.getLockStatus()
+                || !mySouthDoor.getLockStatus() || !myEastDoor.getLockStatus()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
