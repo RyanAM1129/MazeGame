@@ -78,7 +78,7 @@ public class QuestionBuilder {
 
     private Stack<Question> buildShortAnswers() {
         final String query = "SELECT * FROM short_answer ORDER BY RANDOM() LIMIT " +
-                myMultipleChoiceCount + ";";
+                myShortAnswerCount + ";";
         ResultSet myQuestionData;
         Stack<Question> myQuestionSet = new Stack<>();
         String myQuestionString;
@@ -101,7 +101,7 @@ public class QuestionBuilder {
 
     private Stack<Question> buildTrueFalse() {
         final String query = "SELECT * FROM true_false ORDER BY RANDOM() LIMIT " +
-                myMultipleChoiceCount + ";";
+                myTrueFalseCount + ";";
         ResultSet myQuestionData;
         Stack<Question> myQuestionSet = new Stack<>();
         String myQuestionString;
@@ -148,7 +148,7 @@ public class QuestionBuilder {
 
     public Question getQuestion() {
         Random myRandom = new Random();
-        int myRandomChoice = myRandom.nextInt(4);
+        int myRandomChoice = 1 + myRandom.nextInt(3);
         Question myQuestion = null;
         boolean tryAgain = true;
         while(tryAgain) {
@@ -157,6 +157,7 @@ public class QuestionBuilder {
                     if (!myMultipleChoice.isEmpty()) {
                         myQuestion = myMultipleChoice.pop();
                         tryAgain = false;
+                        break;
                     } else {
                         myRandomChoice = 2;
                     }
@@ -164,6 +165,7 @@ public class QuestionBuilder {
                     if (!myShortAnswer.isEmpty()) {
                         myQuestion = myShortAnswer.pop();
                         tryAgain = false;
+                        break;
                     } else {
                         myRandomChoice = 3;
                     }
@@ -171,6 +173,7 @@ public class QuestionBuilder {
                     if (!myTrueFalse.isEmpty()) {
                         myQuestion = myTrueFalse.pop();
                         tryAgain = false;
+                        break;
                     } else {
                         myRandomChoice = 1;
                     }

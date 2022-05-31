@@ -6,6 +6,8 @@ public class Main {
     public static void main(String[] args) {
         //System.out.println("Woo go team!");
         Maze myMaze = new Maze(5);
-        CLI.mainDisplay(myMaze);
+        while(myMaze.getCurrentLocation().hasPath()) {
+            CLI.mainDisplay(myMaze);
+        }
     }
 }

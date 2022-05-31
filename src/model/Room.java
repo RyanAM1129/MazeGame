@@ -41,8 +41,8 @@ public class Room {
     }
 
     public boolean hasPath() {
-        if(!myNorthDoor.getLockStatus() || !myWestDoor.getLockStatus()
-                || !mySouthDoor.getLockStatus() || !myEastDoor.getLockStatus()) {
+        if(myNorthDoor.getLockStatus() || myWestDoor.getLockStatus()
+                || mySouthDoor.getLockStatus() || myEastDoor.getLockStatus()) {
             return true;
         } else {
             return false;

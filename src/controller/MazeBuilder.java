@@ -9,7 +9,7 @@ public class MazeBuilder {
         Door[][] myVerticalDoors = new Door[theSize][theSize - 1];
         Door[][] myHorizontalDoors = new Door[theSize - 1][theSize];
         Room[][] myRooms = new Room[theSize][theSize];
-        QuestionBuilder QB = new QuestionBuilder(theSize);
+        QuestionBuilder QB = new QuestionBuilder(2 * theSize * (theSize - 1));
 
         for (int i = 0; i < theSize - 1; i++) {
             for (int j = 0; j < theSize - 1; j++) {
