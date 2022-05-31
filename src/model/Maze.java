@@ -56,20 +56,68 @@ public class Maze {
     }
 
     public String toString() {
+        Room myCurrentLocation;
+        RoomType myCurrentType;
+        int buffer;
+
         StringBuilder myStr = new StringBuilder();
-        for (int i = 0; i < mySize; i++) {
+        //Build top wall
+        for (int i = 0; i <= 2 * mySize; i++) {
+            if (i == 0) {
+                myStr.append(".");
+            } else if (i == 2 * mySize) {
+                myStr.append(".\n");
+            } else {
+                myStr.append("=");
+            }
+        }
+
+        //Build interior rows
+        for (int i = 0; i < mySize * 2; i++) {
             for (int j = 0; j < mySize; j++) {
-                if(myCurrentRow == i && myCurrentColumn == j) {
-                    myStr.append("0");
-                } else if(!myRooms[i][j].hasBeenVisited()) {
-                    myStr.append("?");
-                } else if (myRooms[i][j].hasBeenVisited() && myRooms[i][j].hasPath()) {
-                    myStr.append("+");
-                } else {
-                    myStr.append("X");
+                if (i % 2 == 0) {//Room Row
+                    myCurrentLocation = myRooms[i / 2][j];
+                    myCurrentType = myCurrentLocation.getType();
+                    if (myCurrentType == RoomType.LEFT
+                            || myCurrentType == RoomType.TOP_LEFT
+                            || myCurrentType == RoomType.BOT_LEFT) {
+                        myStr.append("|" + myCurrentLocation + myCurrentLocation.getEastDoor());
+                    } else if (myCurrentType == RoomType.RIGHT
+                            || myCurrentType == RoomType.TOP_RIGHT
+                            || myCurrentType == RoomType.BOT_RIGHT) {
+                        myStr.append(myCurrentLocation + "|\n");
+                    } else {
+                        myStr.append(myCurrentLocation);
+                        myStr.append(myCurrentLocation.getEastDoor().toString());
+                    }
+                } else {//Wall Row
+                    buffer = (i / 2) - 1;
+                    if(buffer < 0) {
+                        buffer = 0;
+                    }
+                    myCurrentLocation = myRooms[buffer][j];
+                    if (myCurrentLocation.getType() == RoomType.LEFT
+                            || myCurrentLocation.getType() == RoomType.TOP_LEFT) {
+                        myStr.append("|" + myCurrentLocation.getSouthDoor() + "+");
+                    } else if (myCurrentLocation.getType() == RoomType.RIGHT
+                            || myCurrentLocation.getType() == RoomType.TOP_RIGHT) {
+                        myStr.append(myCurrentLocation.getSouthDoor() + "|\n");
+                    } else {
+                        myStr.append(myCurrentLocation.getSouthDoor().toString() + "+");
+                    }
                 }
             }
-            myStr.append("\n");
+        }
+
+        //Build bottom wall
+        for (int i = 0; i <= 2 * mySize; i++) {
+            if (i == 0) {
+                myStr.append("'");
+            } else if (i == 2 * mySize) {
+                myStr.append("'\n");
+            } else {
+                myStr.append("=");
+            }
         }
         return myStr.toString();
     }

@@ -1,6 +1,7 @@
 package controller;
 
 import model.Door;
+import model.DoorType;
 import model.Question;
 import model.Room;
 
@@ -13,13 +14,13 @@ public class MazeBuilder {
 
         for (int i = 0; i < theSize - 1; i++) {
             for (int j = 0; j < theSize - 1; j++) {
-                myVerticalDoors[i][j] = new Door(QB.getQuestion());
+                myVerticalDoors[i][j] = new Door(QB.getQuestion(), DoorType.VERTICAL);
             }
         }
 
         for (int i = 0; i < theSize - 1; i++) {
             for (int j = 0; j < theSize; j++) {
-                myHorizontalDoors[i][j] = new Door(QB.getQuestion());
+                myHorizontalDoors[i][j] = new Door(QB.getQuestion(), DoorType.HORIZONTAL);
             }
         }
 
