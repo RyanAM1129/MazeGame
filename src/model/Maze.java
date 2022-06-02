@@ -7,12 +7,14 @@ public class Maze {
     private final int mySize;
     private int myCurrentRow;
     private int myCurrentColumn;
+    private int myHealth;
 
     public Maze(final int theSize) {
         mySize = theSize;
         myRooms = MazeBuilder.buildRooms(mySize);
-        myCurrentRow = 2;
-        myCurrentColumn = 2;
+        myCurrentRow = 4;
+        myCurrentColumn = 4;
+        myHealth = 4;
     }
 
     public Room[][] getBoard() {
@@ -39,25 +41,43 @@ public class Maze {
         return myRooms[myCurrentRow][myCurrentColumn];
     }
 
+    public int getHealth() {
+        return myHealth;
+    }
+
     public void moveNorth() {
         myCurrentRow--;
+        myRooms[myCurrentRow][myCurrentColumn].visit();
     }
 
     public void moveWest() {
         myCurrentColumn--;
+        myRooms[myCurrentRow][myCurrentColumn].visit();
     }
 
     public void moveSouth() {
         myCurrentRow++;
+        myRooms[myCurrentRow][myCurrentColumn].visit();
     }
 
     public void moveEast() {
         myCurrentColumn++;
+        myRooms[myCurrentRow][myCurrentColumn].visit();
+    }
+
+    public boolean minusHealth() {
+        myHealth--;
+        if (myHealth <= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String toString() {
         Room myCurrentLocation;
         RoomType myCurrentType;
+        String myCurrentString;
         int buffer;
 
         StringBuilder myStr = new StringBuilder();
@@ -73,21 +93,25 @@ public class Maze {
         }
 
         //Build interior rows
-        for (int i = 0; i < mySize * 2; i++) {
+        for (int i = 0; i < (mySize * 2) - 1; i++) {
             for (int j = 0; j < mySize; j++) {
                 if (i % 2 == 0) {//Room Row
                     myCurrentLocation = myRooms[i / 2][j];
+                    myCurrentString = myCurrentLocation.toString();
                     myCurrentType = myCurrentLocation.getType();
+                    if(myCurrentLocation == getCurrentLocation()) {
+                        myCurrentString = "0";
+                    }
                     if (myCurrentType == RoomType.LEFT
                             || myCurrentType == RoomType.TOP_LEFT
                             || myCurrentType == RoomType.BOT_LEFT) {
-                        myStr.append("|" + myCurrentLocation + myCurrentLocation.getEastDoor());
+                        myStr.append("|" + myCurrentString + myCurrentLocation.getEastDoor());
                     } else if (myCurrentType == RoomType.RIGHT
                             || myCurrentType == RoomType.TOP_RIGHT
                             || myCurrentType == RoomType.BOT_RIGHT) {
-                        myStr.append(myCurrentLocation + "|\n");
+                        myStr.append(myCurrentString + "|\n");
                     } else {
-                        myStr.append(myCurrentLocation);
+                        myStr.append(myCurrentString);
                         myStr.append(myCurrentLocation.getEastDoor().toString());
                     }
                 } else {//Wall Row

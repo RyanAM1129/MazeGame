@@ -18,11 +18,13 @@ public class QuestionBuilder {
     Stack<Question> myMultipleChoice;
     Stack<Question> myShortAnswer;
     Stack<Question> myTrueFalse;
+    Question myFinalQuestion;
     SQLiteDataSource myDataSource;
     Connection myConnection;
     Statement myStatement;
 
     public QuestionBuilder(final int theN) {
+        //Add one to account for the "final answer".
         myTotalQuestionCount = theN;
         determineRatio();
         establishConnection("jdbc:sqlite:questions.db");
@@ -78,7 +80,7 @@ public class QuestionBuilder {
 
     private Stack<Question> buildShortAnswers() {
         final String query = "SELECT * FROM short_answer ORDER BY RANDOM() LIMIT " +
-                myShortAnswerCount + ";";
+                (myShortAnswerCount + 1) + ";";
         ResultSet myQuestionData;
         Stack<Question> myQuestionSet = new Stack<>();
         String myQuestionString;
@@ -86,6 +88,11 @@ public class QuestionBuilder {
         try{
             myAnswers = new Stack<>();
             myQuestionData = myStatement.executeQuery(query);
+            myQuestionData.next();
+            myQuestionString = myQuestionData.getString("QUESTION");
+            myAnswers.push(myQuestionData.getString("ANSWER"));
+            myFinalQuestion = new Question(myQuestionString, myAnswers);
+            myAnswers.pop();
             while (myQuestionData.next()) {
                 myQuestionString = myQuestionData.getString("QUESTION");
                 myAnswers.push(myQuestionData.getString("ANSWER"));
@@ -180,5 +187,9 @@ public class QuestionBuilder {
             }
         }
         return myQuestion;
+    }
+
+    public Question getFinalQuestion() {
+        return myFinalQuestion;
     }
 }

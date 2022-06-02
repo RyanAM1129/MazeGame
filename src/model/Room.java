@@ -9,12 +9,13 @@ public class Room {
     private boolean myBeenVisited;
 
     public Room(final Door theNorthDoor, final Door theWestDoor,
-                final Door theSouthDoor, final Door theEastDoor){
+                final Door theSouthDoor, final Door theEastDoor,
+                final RoomType theType){
         myNorthDoor = theNorthDoor;
         myWestDoor = theWestDoor;
         mySouthDoor = theSouthDoor;
         myEastDoor = theEastDoor;
-        myType = determineType();
+        myType = theType;
         myBeenVisited = false;
     }
 

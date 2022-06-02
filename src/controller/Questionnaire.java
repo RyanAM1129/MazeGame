@@ -6,7 +6,7 @@ import model.QuestionType;
 import java.util.Scanner;
 import java.util.Stack;
 
-public class Questionaire {
+public class Questionnaire {
     public static boolean askQuestion(Question theQuestion) {
         Scanner myConsole = new Scanner(System.in);
         String theAnswer = "";
@@ -18,11 +18,11 @@ public class Questionaire {
             while (!myStack.isEmpty()) {
                 questionAnswers[count - 1] = myStack.pop();
                 System.out.println("\t" + count + ". " + questionAnswers[count - 1]);
+                count++;
             }
             System.out.print("\n" + "Please enter the number of your choice: ");
-            theAnswer = questionAnswers[myConsole.nextInt()];
+            theAnswer = questionAnswers[myConsole.nextInt() - 1];
         } else if(theQuestion.getType() == QuestionType.TF) {
-            System.out.println(theQuestion.getQuestion());
             System.out.println("\t1. True\n\t2. False");
             int choice = myConsole.nextInt();
             if(choice >= 2) {
@@ -38,7 +38,6 @@ public class Questionaire {
                     theAnswer = "false";
             }
         } else {
-            System.out.println(theQuestion.getQuestion() + "\n");
             System.out.print("Please enter your answer: ");
             theAnswer = myConsole.nextLine();
         }
