@@ -2,6 +2,7 @@ package view;
 
 import controller.Questionnaire;
 import controller.Validator;
+import model.Game;
 import model.Maze;
 import model.Room;
 import model.RoomType;
@@ -9,12 +10,12 @@ import model.RoomType;
 import java.util.Scanner;
 
 public class CLI {
-    public static void mainDisplay(Maze theMaze) {
+    public static void mainDisplay(Game theGame) {
         Scanner myConsole = new Scanner(System.in);
         int myChoice;
-        Room myLocation = theMaze.getCurrentLocation();
-        System.out.println(theMaze);
-        System.out.println("Remaining wrong answers: " + theMaze.getHealth() + "\n");
+        Room myLocation = theGame.getCurrentLocation();
+        System.out.println(theGame);
+        System.out.println("Remaining wrong answers: " + theGame.getHealth() + "\n");
         displayMoveOptions(myLocation.getType());
         myChoice = myConsole.nextInt();
         while(!Validator.numberInRange(myLocation.getType(), myChoice)) {
@@ -24,44 +25,44 @@ public class CLI {
         switch(myChoice){
             case 1:
                 if (Questionnaire.askQuestion(myLocation.getNorthDoor().getQuestion())) {
-                    theMaze.moveNorth();
+                    theGame.moveNorth();
                     displayCorrectAnswer();
                     //myConsole.nextLine();
                 } else {
-                    theMaze.minusHealth();
+                    theGame.minusHealth();
                     displayIncorrectAnswer();
                     //myConsole.nextLine();
                 }
                 break;
             case 2:
                 if (Questionnaire.askQuestion(myLocation.getWestDoor().getQuestion())) {
-                    theMaze.moveWest();
+                    theGame.moveWest();
                     displayCorrectAnswer();
                     //myConsole.nextLine();
                 } else {
-                    theMaze.minusHealth();
+                    theGame.minusHealth();
                     displayIncorrectAnswer();
                     //myConsole.nextLine();
                 }
                 break;
             case 3:
                 if (Questionnaire.askQuestion(myLocation.getSouthDoor().getQuestion())) {
-                    theMaze.moveSouth();
+                    theGame.moveSouth();
                     displayCorrectAnswer();
                     //myConsole.nextLine();
                 } else {
-                    theMaze.minusHealth();
+                    theGame.minusHealth();
                     displayIncorrectAnswer();
                     //myConsole.nextLine();
                 }
                 break;
             case 4:
                 if (Questionnaire.askQuestion(myLocation.getEastDoor().getQuestion())) {
-                    theMaze.moveEast();
+                    theGame.moveEast();
                     displayCorrectAnswer();
                     //myConsole.nextLine();
                 } else {
-                    theMaze.minusHealth();
+                    theGame.minusHealth();
                     displayIncorrectAnswer();
                     //myConsole.nextLine();
                 }
@@ -87,7 +88,7 @@ public class CLI {
                 System.out.println("1. N\n2. W\n4. E");
                 break;
             case BOT_RIGHT:
-                System.out.println("1. N\n2. W\n4. E");
+                System.out.println("1. N\n2. W\n4. Exit");
                 break;
             case RIGHT:
                 System.out.println("1. N\n2. W\n3. S");

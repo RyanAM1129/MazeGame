@@ -2,5 +2,6 @@ package model;
 
 public enum DoorType {
     VERTICAL,
-    HORIZONTAL
+    HORIZONTAL,
+    EXIT
 }

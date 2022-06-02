@@ -29,11 +29,7 @@ public class Door {
 
     public String toString() {
         String myStr = "|";
-        if(myType == DoorType.VERTICAL && !myLockStatus) {
-            myStr = "/";
-        } else if(myType == DoorType.HORIZONTAL && myLockStatus) {
-            myStr = "=";
-        } else if(myType == DoorType.HORIZONTAL) {
+        if(myType == DoorType.HORIZONTAL) {
             myStr = "-";
         }
         return myStr;

@@ -3,18 +3,17 @@ package model;
 import controller.MazeBuilder;
 
 public class Maze {
-    private final Room[][] myRooms;
-    private final int mySize;
-    private int myCurrentRow;
-    private int myCurrentColumn;
-    private int myHealth;
+    protected final Room[][] myRooms;
+    protected final int mySize;
+    protected int myCurrentRow;
+    protected int myCurrentColumn;
 
     public Maze(final int theSize) {
         mySize = theSize;
         myRooms = MazeBuilder.buildRooms(mySize);
-        myCurrentRow = 4;
-        myCurrentColumn = 4;
-        myHealth = 4;
+        myCurrentRow = 0;
+        myCurrentColumn = 0;
+        myRooms[myCurrentRow][myCurrentColumn].visit();
     }
 
     public Room[][] getBoard() {
@@ -39,39 +38,6 @@ public class Maze {
 
     public Room getCurrentLocation() {
         return myRooms[myCurrentRow][myCurrentColumn];
-    }
-
-    public int getHealth() {
-        return myHealth;
-    }
-
-    public void moveNorth() {
-        myCurrentRow--;
-        myRooms[myCurrentRow][myCurrentColumn].visit();
-    }
-
-    public void moveWest() {
-        myCurrentColumn--;
-        myRooms[myCurrentRow][myCurrentColumn].visit();
-    }
-
-    public void moveSouth() {
-        myCurrentRow++;
-        myRooms[myCurrentRow][myCurrentColumn].visit();
-    }
-
-    public void moveEast() {
-        myCurrentColumn++;
-        myRooms[myCurrentRow][myCurrentColumn].visit();
-    }
-
-    public boolean minusHealth() {
-        myHealth--;
-        if (myHealth <= 0) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public String toString() {
@@ -105,11 +71,11 @@ public class Maze {
                     if (myCurrentType == RoomType.LEFT
                             || myCurrentType == RoomType.TOP_LEFT
                             || myCurrentType == RoomType.BOT_LEFT) {
-                        myStr.append("|" + myCurrentString + myCurrentLocation.getEastDoor());
+                        myStr.append("]" + myCurrentString + myCurrentLocation.getEastDoor());
                     } else if (myCurrentType == RoomType.RIGHT
                             || myCurrentType == RoomType.TOP_RIGHT
                             || myCurrentType == RoomType.BOT_RIGHT) {
-                        myStr.append(myCurrentString + "|\n");
+                        myStr.append(myCurrentString + "[\n");
                     } else {
                         myStr.append(myCurrentString);
                         myStr.append(myCurrentLocation.getEastDoor().toString());
@@ -122,10 +88,10 @@ public class Maze {
                     myCurrentLocation = myRooms[buffer][j];
                     if (myCurrentLocation.getType() == RoomType.LEFT
                             || myCurrentLocation.getType() == RoomType.TOP_LEFT) {
-                        myStr.append("|" + myCurrentLocation.getSouthDoor() + "+");
+                        myStr.append("]" + myCurrentLocation.getSouthDoor() + "+");
                     } else if (myCurrentLocation.getType() == RoomType.RIGHT
                             || myCurrentLocation.getType() == RoomType.TOP_RIGHT) {
-                        myStr.append(myCurrentLocation.getSouthDoor() + "|\n");
+                        myStr.append(myCurrentLocation.getSouthDoor() + "[\n");
                     } else {
                         myStr.append(myCurrentLocation.getSouthDoor().toString() + "+");
                     }

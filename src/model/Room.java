@@ -79,7 +79,9 @@ public class Room {
     }
 
     public String toString() {
-        if(myBeenVisited) {
+        if(myType == RoomType.BOT_RIGHT) {
+            return "X";
+        } else if(myBeenVisited) {
             return "V";
         } else {
             return "?";

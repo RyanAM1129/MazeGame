@@ -59,7 +59,7 @@ public class MazeBuilder {
         //Last Row / Last Column
         myRooms[theSize - 1][theSize - 1] = new Room(myHorizontalDoors[theSize - 2][theSize - 1],
                 myVerticalDoors[theSize - 1][theSize - 2], null,
-                new Door(QB.getFinalQuestion(), DoorType.VERTICAL), RoomType.BOT_RIGHT);
+                new Door(QB.getFinalQuestion(), DoorType.EXIT), RoomType.BOT_RIGHT);
 
         return myRooms;
     }

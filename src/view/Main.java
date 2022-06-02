@@ -1,14 +1,22 @@
 package view;
 
-import model.Maze;
+import model.Game;
 
 public class Main {
     public static void main(String[] args) {
         //System.out.println("Woo go team!");
-        Maze myMaze = new Maze(5);
-        while(myMaze.getHealth() > 0) {
-            CLI.mainDisplay(myMaze);
+        runCLI();
+    }
+
+    private static void runCLI() {
+        Game myGame = new Game(5);
+        while(!myGame.isMyGameOver()) {
+            CLI.mainDisplay(myGame);
         }
-        System.out.println("You have lost all your lives, the game is over.");
+        if (myGame.isMyGameWon()) {
+            System.out.println("You have won! Congratulations!");
+        } else {
+            System.out.println("You have lost. Try again!");
+        }
     }
 }
