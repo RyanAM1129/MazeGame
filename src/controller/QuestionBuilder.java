@@ -1,6 +1,7 @@
 package controller;
 
 import model.Question;
+import model.QuestionType;
 import org.sqlite.SQLiteDataSource;
 
 import java.sql.Connection;
@@ -68,7 +69,8 @@ public class QuestionBuilder {
                 myAnswers.push(myQuestionData.getString("WRONG2"));
                 myAnswers.push(myQuestionData.getString("WRONG3"));
                 myAnswers.push(myQuestionData.getString("ANSWER"));
-                myQuestionSet.push(new Question(myQuestionString, (Stack<String>) myAnswers.clone()));
+                myQuestionSet.push(new Question(myQuestionString, (Stack<String>) myAnswers.clone(),
+                        QuestionType.MC));
                 myAnswers.clear();
             }
         } catch (SQLException theException) {
@@ -91,12 +93,13 @@ public class QuestionBuilder {
             myQuestionData.next();
             myQuestionString = myQuestionData.getString("QUESTION");
             myAnswers.push(myQuestionData.getString("ANSWER"));
-            myFinalQuestion = new Question(myQuestionString, myAnswers);
+            myFinalQuestion = new Question(myQuestionString, myAnswers, QuestionType.SA);
             myAnswers.pop();
             while (myQuestionData.next()) {
                 myQuestionString = myQuestionData.getString("QUESTION");
                 myAnswers.push(myQuestionData.getString("ANSWER"));
-                myQuestionSet.push(new Question(myQuestionString, (Stack<String>) myAnswers.clone()));
+                myQuestionSet.push(new Question(myQuestionString, (Stack<String>) myAnswers.clone(),
+                        QuestionType.SA));
                 myAnswers.clear();
             }
         } catch (SQLException theException) {
@@ -119,7 +122,8 @@ public class QuestionBuilder {
             while (myQuestionData.next()) {
                 myQuestionString = myQuestionData.getString("QUESTION");
                 myAnswers.push(myQuestionData.getString("ANSWER"));
-                myQuestionSet.push(new Question(myQuestionString, (Stack<String>) myAnswers.clone()));
+                myQuestionSet.push(new Question(myQuestionString, (Stack<String>) myAnswers.clone(),
+                        QuestionType.TF));
                 myAnswers.clear();
             }
         } catch (SQLException theException) {

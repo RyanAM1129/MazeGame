@@ -39,43 +39,12 @@ public class Room {
         return myType;
     }
 
-    private RoomType determineType() {
-        RoomType myType = RoomType.INTERIOR;
-        if(myNorthDoor == null && myWestDoor == null) {
-            myType = RoomType.TOP_LEFT;
-        } else if(myWestDoor == null && mySouthDoor == null) {
-            myType = RoomType.BOT_LEFT;
-        } else if(mySouthDoor == null && myEastDoor == null) {
-            myType = RoomType.BOT_RIGHT;
-        } else if(myNorthDoor == null && myEastDoor == null) {
-            myType = RoomType.TOP_RIGHT;
-        } else if(myNorthDoor == null) {
-            myType = RoomType.TOP;
-        } else if(myWestDoor == null) {
-            myType = RoomType.LEFT;
-        } else if(mySouthDoor == null) {
-            myType = RoomType.BOT;
-        } else if(myEastDoor == null) {
-            myType = RoomType.RIGHT;
-        }
-        return myType;
-    }
-
     public boolean hasBeenVisited() {
         return myBeenVisited;
     }
 
     public void visit() {
         myBeenVisited = true;
-    }
-
-    public boolean hasPath() {
-        if(myNorthDoor.getLockStatus() || myWestDoor.getLockStatus()
-                || mySouthDoor.getLockStatus() || myEastDoor.getLockStatus()) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public String toString() {

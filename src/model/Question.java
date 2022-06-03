@@ -18,17 +18,11 @@ public class Question {
 
     private final Stack<String> myAnswer;
 
-    public Question(final String theQuestion, final Stack<String> theAnswer) {
+    public Question(final String theQuestion, final Stack<String> theAnswer, final QuestionType theType) {
         myQuestion = theQuestion;
         myCorrect = theAnswer.peek();
         myAnswer = (Stack<String>) theAnswer.clone();
-        if(myAnswer.size() > 1) {
-            MY_TYPE = QuestionType.MC;
-        } else if (myCorrect.toLowerCase() == "true" || myCorrect.toLowerCase() == "false") {
-            MY_TYPE = QuestionType.TF;
-        } else {
-            MY_TYPE = QuestionType.SA;
-        }
+        MY_TYPE = theType;
     }
 
     public Stack<String> getAnswer() {

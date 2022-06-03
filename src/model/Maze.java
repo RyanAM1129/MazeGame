@@ -16,6 +16,14 @@ public class Maze {
         myRooms[myCurrentRow][myCurrentColumn].visit();
     }
 
+    public Maze(final int theSize, final int theStartingRow, final int theStartingColumn) {
+        mySize = theSize;
+        myRooms = MazeBuilder.buildRooms(mySize);
+        myCurrentRow = theStartingRow;
+        myCurrentColumn = theStartingColumn;
+        myRooms[myCurrentRow][myCurrentColumn].visit();
+    }
+
     public Room[][] getBoard() {
         return myRooms;
     }
@@ -104,7 +112,7 @@ public class Maze {
             if (i == 0) {
                 myStr.append("'");
             } else if (i == 2 * mySize) {
-                myStr.append("'\n");
+                myStr.append("'");
             } else {
                 myStr.append("=");
             }
