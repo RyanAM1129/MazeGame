@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Locale;
 import java.util.Stack;
 
 public class Question {
@@ -34,7 +35,11 @@ public class Question {
     }
 
     public boolean isCorrect(final String theAnswer) {
-        return myCorrect.equals(theAnswer);
+        if(MY_TYPE == QuestionType.TF) {
+            return myCorrect.strip().equalsIgnoreCase(theAnswer.strip());
+        } else {
+            return myCorrect.equals(theAnswer);
+        }
     }
 
     public QuestionType getType() {
