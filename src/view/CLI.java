@@ -9,7 +9,14 @@ import model.RoomType;
 
 import java.util.Scanner;
 
+/**
+ * Displays the maze game on a Command Line Interface.
+ */
 public class CLI {
+    /**
+     * Displays the main features (maze, controls, etc. of the CLI.
+     * @param theGame the given game.
+     */
     public static void mainDisplay(Game theGame) {
         Scanner myConsole = new Scanner(System.in);
         int myChoice;

@@ -11,10 +11,25 @@ import java.util.Stack;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests the methods of the Door Class.
+ */
 public class DoorTest {
+    /**
+     * The door used for testing.
+     */
     Door myTestDoor;
+    /**
+     * The question used for testing.
+     */
     Question myTestQuestion;
 
+    /**
+     * Initializes all test fields.
+     * Makes the question "Does Java support OOP".
+     * Makes the correct answer "Yes".
+     * Makes the door type Vertical.
+     */
     @Before
     public void init() {
         Stack<String> myAnswers = new Stack<>();
@@ -23,6 +38,9 @@ public class DoorTest {
         myTestDoor = new Door(myTestQuestion, DoorType.VERTICAL);
     }
 
+    /**
+     * Tests the getQuestion method.
+     */
     @Test
     public void getQuestionTest() {
         Question expected = myTestQuestion;
@@ -30,6 +48,9 @@ public class DoorTest {
         assertEquals("The Questions do not equal.", expected, actual);
     }
 
+    /**
+     * Tests the toString() method for vertical doors.
+     */
     @Test
     public void toStringVerticalTest() {
         String expected = "|";
@@ -37,6 +58,9 @@ public class DoorTest {
         assertEquals("The Strings do not equal.", expected, actual);
     }
 
+    /**
+     * Tests the toString() method for horizontal doors.
+     */
     @Test
     public void toStringHorizontalTest() {
         myTestDoor = new Door(myTestQuestion, DoorType.HORIZONTAL);

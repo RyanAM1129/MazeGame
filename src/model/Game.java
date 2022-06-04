@@ -5,12 +5,24 @@ public class Game extends Maze {
     private boolean myGameWon;
     private boolean myGameLost;
 
+    public Game() {
+        super(5);
+        myHealth = 4;
+        myGameWon = false;
+        myGameLost = false;
+    }
+
     public Game(final int theBoardSize) {
         super(theBoardSize);
-        myCurrentRow = 0;
-        myCurrentColumn = 0;
-        myRooms[myCurrentRow][myCurrentColumn].visit();
         myHealth = 4;
+        myGameWon = false;
+        myGameLost = false;
+    }
+
+    public Game(final int theBoardSize, final int theHealth, final int theStartingRow,
+                final int theStartingColumn) {
+        super(theBoardSize, theStartingRow, theStartingColumn);
+        myHealth = theHealth;
         myGameWon = false;
         myGameLost = false;
     }
