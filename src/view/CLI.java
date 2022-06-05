@@ -3,7 +3,6 @@ package view;
 import controller.Questionnaire;
 import controller.Validator;
 import model.Game;
-import model.Maze;
 import model.Room;
 import model.RoomType;
 
@@ -31,7 +30,7 @@ public class CLI {
         }
         switch(myChoice){
             case 1:
-                if (Questionnaire.askQuestion(myLocation.getNorthDoor().getQuestion())) {
+                if (Questionnaire.askQuestionCLI(myLocation.getNorthDoor().getQuestion())) {
                     theGame.moveNorth();
                     displayCorrectAnswer();
                     //myConsole.nextLine();
@@ -42,7 +41,7 @@ public class CLI {
                 }
                 break;
             case 2:
-                if (Questionnaire.askQuestion(myLocation.getWestDoor().getQuestion())) {
+                if (Questionnaire.askQuestionCLI(myLocation.getWestDoor().getQuestion())) {
                     theGame.moveWest();
                     displayCorrectAnswer();
                     //myConsole.nextLine();
@@ -53,7 +52,7 @@ public class CLI {
                 }
                 break;
             case 3:
-                if (Questionnaire.askQuestion(myLocation.getSouthDoor().getQuestion())) {
+                if (Questionnaire.askQuestionCLI(myLocation.getSouthDoor().getQuestion())) {
                     theGame.moveSouth();
                     displayCorrectAnswer();
                     //myConsole.nextLine();
@@ -64,7 +63,7 @@ public class CLI {
                 }
                 break;
             case 4:
-                if (Questionnaire.askQuestion(myLocation.getEastDoor().getQuestion())) {
+                if (Questionnaire.askQuestionCLI(myLocation.getEastDoor().getQuestion())) {
                     theGame.moveEast();
                     displayCorrectAnswer();
                     //myConsole.nextLine();

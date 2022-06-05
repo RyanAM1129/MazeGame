@@ -6,8 +6,15 @@ import model.QuestionType;
 import java.util.Scanner;
 import java.util.Stack;
 
+/**
+ * A class designed to handle the job of asking a question in a Trivia Maze Game.
+ */
 public class Questionnaire {
-    public static boolean askQuestion(Question theQuestion) {
+    /**
+     * Displays and asks a question for a Command Line Interface.
+     * @return true if the answer was correct, false if not.
+     */
+    public static boolean askQuestionCLI(Question theQuestion) {
         Scanner myConsole = new Scanner(System.in);
         String theAnswer = "";
         System.out.println(theQuestion.getQuestion() + "\n");

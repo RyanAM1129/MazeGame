@@ -2,7 +2,13 @@ package controller;
 
 import model.*;
 
+/**
+ * Builds the Maze for a Maze Trivia Game.
+ */
 public class MazeBuilder {
+    /**
+     * Builds all the rooms for a Maze of a given size.
+     */
     public static Room[][] buildRooms(final int theSize) {
         Door[][] myVerticalDoors = new Door[theSize][theSize - 1];
         Door[][] myHorizontalDoors = new Door[theSize - 1][theSize];

@@ -2,7 +2,14 @@ package controller;
 
 import model.RoomType;
 
+/**
+ * A class designed to test and validate various inputs.
+ */
 public class Validator {
+    /**
+     * Checks if a given number is an acceptable input for the movement selection in CLI.
+     * @return true if the number is in range, false if not.
+     */
     public static boolean numberInRange(final RoomType theType, final int theNumber) {
         int[] myAcceptable = new int[0];
         switch (theType) {
