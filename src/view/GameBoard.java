@@ -30,7 +30,6 @@ public class GameBoard
     private JButton myWestButton;
 
     private JButton mySubmitButton;
-    private boolean myAnswerCorrect;
 
     private boolean myNorthEnabled;
     private boolean myEastEnabled;
@@ -228,8 +227,6 @@ public class GameBoard
         @Override
         public void actionPerformed(ActionEvent event)
         {
-            System.out.println("Moving North");
-
             displayQuestion(myGame.getCurrentLocation().getNorthDoor());
 
             myNorthEnabled = true;
@@ -241,8 +238,6 @@ public class GameBoard
         @Override
         public void actionPerformed(ActionEvent event)
         {
-            System.out.println("Moving East");
-
             displayQuestion(myGame.getCurrentLocation().getEastDoor());
 
             myEastEnabled = true;
@@ -254,8 +249,6 @@ public class GameBoard
         @Override
         public void actionPerformed(ActionEvent event)
         {
-            System.out.println("Moving South");
-
             displayQuestion(myGame.getCurrentLocation().getSouthDoor());
 
             mySouthEnabled = true;
@@ -267,8 +260,6 @@ public class GameBoard
         @Override
         public void actionPerformed(ActionEvent event)
         {
-            System.out.println("Moving West");
-
             displayQuestion(myGame.getCurrentLocation().getWestDoor());
 
             myWestEnabled = true;
@@ -305,12 +296,12 @@ public class GameBoard
                 myMazePanel.setCurrentRoom(currentRow, currentColumn, myGame);
 
                 JOptionPane.showMessageDialog(myQuestionPanel, "Correct!");
-                play("src/sounds/questionRight.wav");
+                play("questionRight.wav");
 
                 if (myGame.isMyGameWon())
                 {
                     JOptionPane.showMessageDialog(myMazePanel, "You win!");
-                    play("src/sounds/winGame.wav");
+                    play("winGame.wav");
                     endGameOptions();
                 }
             }
@@ -319,12 +310,12 @@ public class GameBoard
                 myGame.minusHealth();
                 myInfoPanel.changeHealthBar(myGame);
                 JOptionPane.showMessageDialog(myQuestionPanel, "Incorrect!");
-                play("src/sounds/questionWrong.wav");
+                play("questionWrong.wav");
 
                 if (myGame.isMyGameLost())
                 {
                     JOptionPane.showMessageDialog(myQuestionPanel, "You Lose!");
-                    play("src/sounds/failGame.wav");
+                    play("failGame.wav");
                     endGameOptions();
                 }
             }

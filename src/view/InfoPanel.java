@@ -6,11 +6,18 @@ import model.*;
 
 import java.awt.*;
 
+/**
+ *
+ */
 public class InfoPanel extends JPanel
 {
     private JTextPane myHealth;
     private JTextPane myInfo;
 
+    /**
+     *
+     * @param theGame
+     */
     public InfoPanel(Game theGame)
     {
         this.myInfo = new JTextPane();
@@ -31,6 +38,10 @@ public class InfoPanel extends JPanel
         add(myHealth);
     }
 
+    /**
+     *
+     * @param theGame
+     */
     public void changeHealthBar(Game theGame)
     {
         this.myHealth.setText("HEALTH: " + theGame.getHealth());

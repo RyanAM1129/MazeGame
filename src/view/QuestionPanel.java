@@ -6,6 +6,9 @@ import java.awt.*;
 
 import model.*;
 
+/**
+ *
+ */
 public class QuestionPanel extends JPanel
 {
     private Question myQuestion;
@@ -20,12 +23,15 @@ public class QuestionPanel extends JPanel
 
     private JTextField myShortAnswerInput;
 
+    /**
+     *
+     */
     public QuestionPanel()
     {
         setLayout(null);
 
         this.myQuestionText = new JTextPane();
-        this.myQuestionText.setBounds(50, 0, 250, 100);
+        this.myQuestionText.setBounds(50, 0, 250, 120);
         this.myQuestionText.setText("Question Text");
         myQuestionText.setFont(new Font("Times New Roman", Font.PLAIN, 18));
         myQuestionText.setBackground(null);
@@ -35,6 +41,10 @@ public class QuestionPanel extends JPanel
         myAnswerOptions = new LinkedList<JRadioButton>();
     }
 
+    /**
+     *
+     * @param theQuestion
+     */
     public void initializeQuestionData(Question theQuestion)
     {
         this.myQuestion = theQuestion;
@@ -71,6 +81,10 @@ public class QuestionPanel extends JPanel
         }
     }
 
+    /**
+     *
+     * @param answers
+     */
     private void initializeAnswerRadios(String[] answers)
     {
         myAnswerOptions.clear();
@@ -79,7 +93,7 @@ public class QuestionPanel extends JPanel
             JRadioButton radioAnswer = new JRadioButton();
             radioAnswer.setText(answers[(i / 50) - 1]);
             myButtonGroup.add(radioAnswer);
-            radioAnswer.setBounds(0, i + 50, 450, 50);
+            radioAnswer.setBounds(0, i + 50, 480, 50);
             radioAnswer.setVisible(true);
             radioAnswer.setSelected(false);
             myAnswerOptions.add(radioAnswer);
@@ -87,11 +101,14 @@ public class QuestionPanel extends JPanel
         }
     }
 
+    /**
+     *
+     */
     private void initializeShortAnswerTextbox()
     {
         myShortAnswerInput = new JTextField();
         myShortAnswerInput.setText("Type Answer Here");
-        myShortAnswerInput.setBounds(50, 111, 180, 20);
+        myShortAnswerInput.setBounds(50, 150, 180, 20);
         add(myShortAnswerInput);
         myShortAnswerInput.setColumns(10);
     }
@@ -110,11 +127,19 @@ public class QuestionPanel extends JPanel
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     private String getShortAnswer()
     {
         return myShortAnswerInput.getText();
     }
 
+    /**
+     *
+     * @return
+     */
     private String getSelectedAnswer()
     {
         for (JRadioButton radio : myAnswerOptions)
@@ -127,6 +152,9 @@ public class QuestionPanel extends JPanel
         return null;
     }
 
+    /**
+     *
+     */
     private void cleanUpMultipleChoiceInputs()
     {
         int size = myAnswerOptions.size();
@@ -136,6 +164,9 @@ public class QuestionPanel extends JPanel
         }
     }
 
+    /**
+     *
+     */
     private void cleanUpShortAnswerTextbox()
     {
         this.myShortAnswerInput.hide();

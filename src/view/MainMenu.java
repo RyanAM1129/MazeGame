@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ *
+ */
 public class MainMenu
 {
     private static final long serialVersionUID = 1L;
@@ -15,11 +18,17 @@ public class MainMenu
     private JLabel myTitle;
     private Timer myTimer;
 
+    /**
+     *
+     */
     public MainMenu()
     {
         start();
     }
 
+    /**
+     *
+     */
     private void start()
     {
         GameBoard game = new GameBoard();
@@ -31,9 +40,10 @@ public class MainMenu
 
         this.myStartMenu = new JFrame("Java Trivia Maze");
 
+        //
         try
         {
-            final Image backgroundImage = javax.imageio.ImageIO.read(new File("src/images/startMenu.jpeg"));
+            final Image backgroundImage = javax.imageio.ImageIO.read(new File("startMenu.jpeg"));
             this.myStartMenu.setContentPane(new JPanel(new BorderLayout())
             {
                 @Override
@@ -58,6 +68,7 @@ public class MainMenu
         JButton startButton = new JButton("Play");
         startButton.setBounds(250, 200, 100, 30);
 
+        //
         startButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -71,6 +82,7 @@ public class MainMenu
         JButton loadButton = new JButton("Load");
         loadButton.setBounds(250, 240, 100, 30);
 
+        //
         loadButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -84,6 +96,7 @@ public class MainMenu
         JButton exitButton = new JButton("Exit");
         exitButton.setBounds(250, 280, 100, 30);
 
+        //
         exitButton.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -101,6 +114,10 @@ public class MainMenu
         this.myStartMenu.setLayout(null);
     }
 
+    /**
+     *
+     * @return
+     */
     public JFrame getStartMenu()
     {
         return this.myStartMenu;
