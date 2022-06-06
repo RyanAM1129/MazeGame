@@ -2,10 +2,13 @@ package view;
 
 import model.Game;
 
+import java.awt.*;
+
 public class Main {
     public static void main(String[] args) {
         //System.out.println("Woo go team!");
-        runCLI();
+        //runCLI();
+        runGUI();
     }
 
     private static void runCLI() {
@@ -18,5 +21,23 @@ public class Main {
         } else {
             System.out.println("You have lost. Try again!");
         }
+    }
+
+    private static void runGUI() {
+        EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                try
+                {
+                    MainMenu menu = new MainMenu();
+                    menu.getStartMenu().setVisible(true);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
