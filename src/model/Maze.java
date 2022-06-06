@@ -2,12 +2,33 @@ package model;
 
 import controller.MazeBuilder;
 
+/**
+ * A Maze used for a trivia maze game.
+ */
 public class Maze {
+    /**
+     * All the rooms of the maze stored in s 2d-array.
+     */
     protected final Room[][] myRooms;
+    /**
+     * The height and width of the maze. Or in other words, the number of rows
+     * and columns.
+     */
     protected final int mySize;
+    /**
+     * The current location's row index.
+     */
     protected int myCurrentRow;
+    /**
+     * The current location's column index.
+     */
     protected int myCurrentColumn;
 
+    /**
+     * Constructor using a given size.
+     * Sets the current row and column to 0.
+     * @param theSize the given size.
+     */
     public Maze(final int theSize) {
         mySize = theSize;
         myRooms = MazeBuilder.buildRooms(mySize);
@@ -16,6 +37,10 @@ public class Maze {
         myRooms[myCurrentRow][myCurrentColumn].visit();
     }
 
+    /**
+     * Constructor using a given size and starting row and column.
+     * @param theSize the given size.
+     */
     public Maze(final int theSize, final int theStartingRow, final int theStartingColumn) {
         mySize = theSize;
         myRooms = MazeBuilder.buildRooms(mySize);
