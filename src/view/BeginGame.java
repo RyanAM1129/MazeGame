@@ -2,8 +2,15 @@ package view;
 
 import java.awt.*;
 
+/**
+ *
+ */
 public class BeginGame
 {
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args)
     {
         EventQueue.invokeLater(new Runnable()

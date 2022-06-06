@@ -4,24 +4,31 @@ import javax.swing.*;
 
 import model.*;
 
+/**
+ *
+ */
 public class MazePanel extends JPanel
 {
     private String emptyRoomFile;
     private String verticalDoorFile;
     private String horizontalDoorFile;
 
-    private ImageIcon myIconEmptyRoom = new ImageIcon("src/images/EmptyRoom.jpeg");
-    private ImageIcon myIconCurrentRoom = new ImageIcon("src/images/CurrentRoom.jpeg");
-    private ImageIcon myIconExitRoom = new ImageIcon("src/images/ExitRoom.jpeg");
-    private ImageIcon myIconLockedRoom = new ImageIcon("src/images/LockedRoom.jpeg");
+    private ImageIcon myIconEmptyRoom = new ImageIcon("EmptyRoom.jpeg");
+    private ImageIcon myIconCurrentRoom = new ImageIcon("CurrentRoom.jpeg");
+    private ImageIcon myIconExitRoom = new ImageIcon("ExitRoom.jpeg");
+    private ImageIcon myIconLockedRoom = new ImageIcon("LockedRoom.jpeg");
 
     private JLabel[][] myRoomImages;
 
+    /**
+     *
+     * @param maze
+     */
     public MazePanel(Maze maze)
     {
-        emptyRoomFile = "src/images/EmptyRoom.jpeg";
-        verticalDoorFile = "src/images/UnlockedVerticalDoor.jpeg";
-        horizontalDoorFile = "src/images/UnlockedHorizontalDoor.jpeg";
+        emptyRoomFile = "EmptyRoom.jpeg";
+        verticalDoorFile = "UnlockedVerticalDoor.jpeg";
+        horizontalDoorFile = "UnlockedHorizontalDoor.jpeg";
 
         setLayout(null);
 
@@ -231,6 +238,7 @@ public class MazePanel extends JPanel
         lblNewLabel.setBounds(10, 30, 10, 20);
         add(lblNewLabel);
 
+        //
         myRoomImages = new JLabel[][]
         {
                 { lblRoomRowOneColumnOne, lblRoomRowOneColumnTwo, lblRoomRowOneColumnThree, lblRoomRowOneColumnFour },
@@ -240,21 +248,40 @@ public class MazePanel extends JPanel
         };
     }
 
+    /**
+     *
+     * @param rowToSet
+     * @param columnToSet
+     * @param icon
+     */
     private void setRoomIcon(int rowToSet, int columnToSet, ImageIcon icon)
     {
         this.myRoomImages[rowToSet][columnToSet].setIcon(icon);
     }
 
+    /**
+     *
+     */
     public void setStartRoom()
     {
         setRoomIcon(0, 0, myIconCurrentRoom);
     }
 
+    /**
+     *
+     * @param roomToSet
+     */
     public void setEndRoom(Game roomToSet)
     {
         setRoomIcon(roomToSet.getSize() - 1, roomToSet.getSize() - 1, myIconExitRoom);
     }
 
+    /**
+     *
+     * @param oldRow
+     * @param oldColumn
+     * @param newLocation
+     */
     public void setCurrentRoom(int oldRow, int oldColumn, Game newLocation)
     {
         setRoomIcon(oldRow, oldColumn, myIconEmptyRoom);
