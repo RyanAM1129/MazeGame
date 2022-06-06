@@ -1,8 +1,7 @@
 package model;
 
-/**
- * A class representing a Question for a trivia game.
- */
+import java.util.Stack;
+
 public class Question {
     /**
      * A string containing the 'Question'.
@@ -11,43 +10,38 @@ public class Question {
     /**
      * A string containing the 'Answer'.
      */
-    private final String myAnswer;
+    private final String myCorrect;
     /**
-     * A String representing the type of question.
+     * The type of Question.
      */
-    final static String myType = "SA";
+    private final QuestionType MY_TYPE;
 
-    /**
-     * Constructor for Question using a given Question and Answer.
-     * @param theQuestion the given question.
-     * @param theAnswer the given answer.
-     */
-    public Question(final String theQuestion, final String theAnswer) {
+    private final Stack<String> myAnswer;
+
+    public Question(final String theQuestion, final Stack<String> theAnswer, final QuestionType theType) {
         myQuestion = theQuestion;
-        myAnswer = theAnswer;
+        myCorrect = theAnswer.peek();
+        myAnswer = (Stack<String>) theAnswer.clone();
+        MY_TYPE = theType;
     }
 
-    /**
-     * Returns the Question String.
-     * @return the Question String.
-     */
+    public Stack<String> getAnswer() {
+        return (Stack<String>) myAnswer.clone();
+    }
+
     public String getQuestion() {
         return myQuestion;
     }
 
-    /**
-     * Returns the Answer String.
-     * @return the Answer String.
-     */
-    public String getAnswer() {
-        return myAnswer;
+    public boolean isCorrect(final String theAnswer) {
+        if(MY_TYPE == QuestionType.TF) {
+            return myCorrect.strip().equalsIgnoreCase(theAnswer.strip());
+        } else {
+            return myCorrect.equals(theAnswer);
+        }
     }
 
-    /**
-     * Checks if the given string is equal to myAnswer.
-     * @return true if the strings match, false if they don't.
-     */
-    public boolean isCorrect(final String theGiven) {
-        return myAnswer.equals(theGiven);
+    public QuestionType getType() {
+        return MY_TYPE;
     }
 }

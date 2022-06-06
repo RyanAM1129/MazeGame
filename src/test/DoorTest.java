@@ -1,72 +1,71 @@
 package test;
 
 import model.Door;
-import model.MultipleChoice;
+import model.DoorType;
 import model.Question;
+import model.QuestionType;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Stack;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests class for {@link Door}.
+ * Tests the methods of the Door Class.
  */
 public class DoorTest {
     /**
-     * The Question for the Door being used.
-     */
-    Question myTestQuestion = new Question("Q", "A");
-    /**
-     * The Door being tested.
+     * The door used for testing.
      */
     Door myTestDoor;
+    /**
+     * The question used for testing.
+     */
+    Question myTestQuestion;
 
     /**
-     * Rebuilds the Door each Test to make sure the states are "fresh".
+     * Initializes all test fields.
+     * Makes the question "Does Java support OOP".
+     * Makes the correct answer "Yes".
+     * Makes the door type Vertical.
      */
     @Before
-    public void before() {
-        myTestDoor = new Door(myTestQuestion);
+    public void init() {
+        Stack<String> myAnswers = new Stack<>();
+        myAnswers.push("Yes");
+        myTestQuestion = new Question("Does Java support OOP", myAnswers, QuestionType.SA);
+        myTestDoor = new Door(myTestQuestion, DoorType.VERTICAL);
     }
 
     /**
-     * Tests the getQuestion() method.
+     * Tests the getQuestion method.
      */
     @Test
     public void getQuestionTest() {
-        Question myExpected = myTestQuestion;
-        Question myActual = myTestDoor.getQuestion();
-        assertEquals("The doors do not equal.", myExpected, myActual);
+        Question expected = myTestQuestion;
+        Question actual = myTestDoor.getQuestion();
+        assertEquals("The Questions do not equal.", expected, actual);
     }
 
     /**
-     * Tests the getQuestion with a MultipleChoice.
+     * Tests the toString() method for vertical doors.
      */
     @Test
-    public void getQuestionMCTest() {
-        Question myExpected = new MultipleChoice("Q", "A", "W1", "W2", "W3");
-        Question myActual = myTestDoor.getQuestion();
-        assertEquals("The doors do not equal.", myExpected, myActual);
+    public void toStringVerticalTest() {
+        String expected = "|";
+        String actual = myTestDoor.toString();
+        assertEquals("The Strings do not equal.", expected, actual);
     }
 
     /**
-     * Tests the getLockStatus() method.
+     * Tests the toString() method for horizontal doors.
      */
     @Test
-    public void getLockStatusTest() {
-        boolean myExpected = true;
-        boolean myActual = myTestDoor.getLockStatus();
-        assertEquals("The status' do not equal.", myExpected, myActual);
-    }
-
-    /**
-     * Tests the unlock() method.
-     */
-    @Test
-    public void unlockTest() {
-        boolean myExpected = false;
-        myTestDoor.unlock();
-        boolean myActual = myTestDoor.getLockStatus();
-        assertEquals("The door did not unlock.", myExpected, myActual);
+    public void toStringHorizontalTest() {
+        myTestDoor = new Door(myTestQuestion, DoorType.HORIZONTAL);
+        String expected = "-";
+        String actual = myTestDoor.toString();
+        assertEquals("The Strings do not equal.", expected, actual);
     }
 }

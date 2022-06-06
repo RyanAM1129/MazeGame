@@ -1,43 +1,66 @@
 package test;
 
-import model.Door;
-import model.Question;
-import model.Room;
+import model.*;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Stack;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * Test class for {@link Room}.
+ * Tests the methods of the Room Class.
  */
 public class RoomTest {
     /**
-     * The north Door for myTestRoom.
+     * The Room used for testing.
      */
-    Door myNorthDoor = new Door(new Question("NQ", "NA"));
+    Room myTestRoom;
     /**
-     * The west Door for myTestRoom.
+     * The north Door used for testing.
      */
-    Door myWestDoor = new Door(new Question("WQ", "WA"));
+    Door myTestNorthDoor;
     /**
-     * The south Door for myTestRoom.
+     * The west Door used for testing.
      */
-    Door mySouthDoor = new Door(new Question("SQ", "SA"));
+    Door myTestWestDoor;
     /**
-     * The east Door for myTestRoom.
+     * The south Door used for testing.
      */
-    Door myEastDoor = new Door(new Question("EQ", "EA"));
+    Door myTestSouthDoor;
     /**
-     * The Room being tested.
+     * The east Door used for testing.
      */
-    Room myTestRoom = new Room(myNorthDoor, myWestDoor, mySouthDoor, myEastDoor);
+    Door myTestEastDoor;
+
+    /**
+     * Initializes the Room.
+     * Makes the question for every door "Does java support OOP?".
+     * Makes the answer for every door "yes".
+     * Makes north and south Doors horizontal Doors.
+     * Makes west and east Doors vertical Doors.
+     * Makes the Room an Interior RoomType.
+     */
+    @Before
+    public void init() {
+        Stack<String> myTestAnswers = new Stack<>();
+        myTestAnswers.push("yes");
+        Question myTestQuestion = new Question("Does java support OOP?", myTestAnswers,
+                QuestionType.SA);
+        myTestNorthDoor = new Door(myTestQuestion, DoorType.HORIZONTAL);
+        myTestWestDoor = new Door(myTestQuestion, DoorType.VERTICAL);
+        myTestSouthDoor = new Door(myTestQuestion, DoorType.HORIZONTAL);
+        myTestEastDoor = new Door(myTestQuestion, DoorType.VERTICAL);
+        myTestRoom = new Room(myTestNorthDoor, myTestWestDoor, myTestSouthDoor, myTestEastDoor,
+                RoomType.INTERIOR);
+    }
 
     /**
      * Tests the getNorthDoor() method.
      */
     @Test
     public void getNorthDoorTest() {
-        Door expected = myNorthDoor;
+        Door expected = myTestNorthDoor;
         Door actual = myTestRoom.getNorthDoor();
         assertEquals("The Doors do not equal.", expected, actual);
     }
@@ -47,7 +70,7 @@ public class RoomTest {
      */
     @Test
     public void getWestDoorTest() {
-        Door expected = myWestDoor;
+        Door expected = myTestWestDoor;
         Door actual = myTestRoom.getWestDoor();
         assertEquals("The Doors do not equal.", expected, actual);
     }
@@ -57,7 +80,7 @@ public class RoomTest {
      */
     @Test
     public void getSouthDoorTest() {
-        Door expected = mySouthDoor;
+        Door expected = myTestSouthDoor;
         Door actual = myTestRoom.getSouthDoor();
         assertEquals("The Doors do not equal.", expected, actual);
     }
@@ -67,9 +90,29 @@ public class RoomTest {
      */
     @Test
     public void getEastDoorTest() {
-        Door expected = myEastDoor;
+        Door expected = myTestEastDoor;
         Door actual = myTestRoom.getEastDoor();
         assertEquals("The Doors do not equal.", expected, actual);
+    }
+
+    /**
+     * Tests the getType() method.
+     */
+    @Test
+    public void getTypeTest() {
+        RoomType expected = RoomType.INTERIOR;
+        RoomType actual = myTestRoom.getType();
+        assertEquals("The RoomTypes do not equal.", expected, actual);
+    }
+
+    /**
+     * Tests the hasBeenVisited() method with a false result.
+     */
+    @Test
+    public void hasBeenVisitedFalseTest() {
+        boolean expected = false;
+        boolean actual = myTestRoom.hasBeenVisited();
+        assertEquals("The method returned the wrong answer.", expected, actual);
     }
 
     /**
@@ -77,9 +120,42 @@ public class RoomTest {
      */
     @Test
     public void visitTest() {
-        boolean expected = true;
+        boolean expected = !myTestRoom.hasBeenVisited();
         myTestRoom.visit();
         boolean actual = myTestRoom.hasBeenVisited();
-        assertEquals("The room has not been visited.", expected, actual);
+        assertEquals("The method returned the wrong answer.", expected, actual);
+    }
+
+    /**
+     * Tests the toString() method for an unvisited room.
+     */
+    @Test
+    public void toStringTest1() {
+        String expected = "?";
+        String actual = myTestRoom.toString();
+        assertEquals("The method returned the wrong answer.", expected, actual);
+    }
+
+    /**
+     * Tests the toString() method for a visited room.
+     */
+    @Test
+    public void toStringTest2() {
+        String expected = "V";
+        myTestRoom.visit();
+        String actual = myTestRoom.toString();
+        assertEquals("The method returned the wrong answer.", expected, actual);
+    }
+
+    /**
+     * Tests the toString() method for an exit.
+     */
+    @Test
+    public void toStringTest3() {
+        String expected = "X";
+        myTestRoom = new Room(myTestNorthDoor, myTestWestDoor, myTestSouthDoor, myTestEastDoor,
+                RoomType.BOT_RIGHT);
+        String actual = myTestRoom.toString();
+        assertEquals("The method returned the wrong answer.", expected, actual);
     }
 }
