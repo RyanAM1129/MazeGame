@@ -1,6 +1,9 @@
 package view;
 
+import java.io.File;
 import java.util.*;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -19,6 +22,7 @@ public class GameBoard
     private JFrame myBoard;
     private JFrame endOfGame;
     private QuestionPanel myQuestionPanel;
+    private InfoPanel myInfoPanel;
 
     private JButton myNorthButton;
     private JButton myEastButton;
@@ -51,12 +55,16 @@ public class GameBoard
         this.myGame = new Game(4);
 
         this.myMazePanel = new MazePanel(this.myGame);
-        myMazePanel.setBounds(700, 10, 500, 500);
+        myMazePanel.setBounds(700, 10, 300, 200);
         myBoard.add(myMazePanel);
 
         myQuestionPanel = new QuestionPanel();
         myQuestionPanel.setBounds(10, 10, 500, 380);
         myBoard.add(myQuestionPanel);
+
+        myInfoPanel = new InfoPanel(myGame);
+        myInfoPanel.setBounds(600, 500, 300, 300);
+        myBoard.add(myInfoPanel);
 
         myBoard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -89,10 +97,15 @@ public class GameBoard
 
         myBoard.setLayout(null);
         myQuestionPanel.setLayout(null);
+        myInfoPanel.setLayout(null);
 
         myBoard.setVisible(true);
         myMazePanel.setVisible(true);
         myQuestionPanel.setVisible(false);
+        myInfoPanel.setVisible(true);
+
+        myMazePanel.setStartRoom();
+        myMazePanel.setEndRoom(myGame);
 
         System.out.println(myGame);
 
@@ -120,8 +133,7 @@ public class GameBoard
         {
             mySouthButton.setEnabled(true);
         }
-        if (currLocation.getType() != RoomType.TOP_RIGHT && currLocation.getType() != RoomType.RIGHT &&
-                currLocation.getType() != RoomType.BOT_RIGHT)
+        if (currLocation.getType() != RoomType.TOP_RIGHT && currLocation.getType() != RoomType.RIGHT)
         {
             myEastButton.setEnabled(true);
         }
@@ -141,6 +153,22 @@ public class GameBoard
 
         disableMoveButtons();
         mySubmitButton.setEnabled(true);
+    }
+
+    public void play(String fileName)
+    {
+        try
+        {
+            File file = new File(fileName);
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(file));
+            clip.start();
+            Thread.sleep(clip.getMicrosecondLength()/10000);
+        }
+        catch (Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
     }
 
     private void disableMoveButtons()
@@ -169,6 +197,7 @@ public class GameBoard
         {
             public void actionPerformed(ActionEvent e)
             {
+                myBoard.dispose();
                 buildBoard();
                 endOfGame.dispose();
             }
@@ -276,19 +305,26 @@ public class GameBoard
                 myMazePanel.setCurrentRoom(currentRow, currentColumn, myGame);
 
                 JOptionPane.showMessageDialog(myQuestionPanel, "Correct!");
+                play("src/sounds/questionRight.wav");
+
                 if (myGame.isMyGameWon())
                 {
-                    JOptionPane.showConfirmDialog(myMazePanel, "You win! Do you want to play again?");
+                    JOptionPane.showMessageDialog(myMazePanel, "You win!");
+                    play("src/sounds/winGame.wav");
                     endGameOptions();
                 }
             }
             else
             {
                 myGame.minusHealth();
+                myInfoPanel.changeHealthBar(myGame);
                 JOptionPane.showMessageDialog(myQuestionPanel, "Incorrect!");
+                play("src/sounds/questionWrong.wav");
+
                 if (myGame.isMyGameLost())
                 {
                     JOptionPane.showMessageDialog(myQuestionPanel, "You Lose!");
+                    play("src/sounds/failGame.wav");
                     endGameOptions();
                 }
             }

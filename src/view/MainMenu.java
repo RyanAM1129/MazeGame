@@ -33,7 +33,7 @@ public class MainMenu
 
         try
         {
-            final Image backgroundImage = javax.imageio.ImageIO.read(new File("startMenu.jpeg"));
+            final Image backgroundImage = javax.imageio.ImageIO.read(new File("src/images/startMenu.jpeg"));
             this.myStartMenu.setContentPane(new JPanel(new BorderLayout())
             {
                 @Override
