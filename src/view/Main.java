@@ -4,14 +4,24 @@ import model.Game;
 
 import java.awt.*;
 
-public class Main {
-    public static void main(String[] args) {
-        //System.out.println("Woo go team!");
+public class Main
+{
+    /**
+     * In this Main, the GUI or CLI can be run simply
+     * by commenting and uncommenting which one you
+     * would want to run.
+     */
+    public static void main(String[] args)
+    {
         //runCLI();
         runGUI();
     }
 
-    private static void runCLI() {
+    /**
+     * This method runs the CLI for the Java Trivia Maze Game.
+     */
+    private static void runCLI()
+    {
         Game myGame = new Game(5);
         while(!myGame.isMyGameOver()) {
             CLI.mainDisplay(myGame);
@@ -23,7 +33,11 @@ public class Main {
         }
     }
 
-    private static void runGUI() {
+    /**
+     * This method runs the GUI for the Java Trivia Maze game.
+     */
+    private static void runGUI()
+    {
         EventQueue.invokeLater(new Runnable()
         {
             public void run()
