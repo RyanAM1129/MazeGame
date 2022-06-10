@@ -7,7 +7,9 @@ import model.*;
 import java.awt.*;
 
 /**
- *
+ * This class sets up a panel to show the player for information and
+ * Health Points remaining. This panel is a part of the larger Game Board
+ * and the JFrame it creates.
  */
 public class InfoPanel extends JPanel
 {
@@ -15,10 +17,12 @@ public class InfoPanel extends JPanel
     private JTextPane myInfo;
 
     /**
-     *
-     * @param theGame
+     * Constructor to set up the panel and associated text.
+     * It also sets up the initial Health Points for the
+     * Player.
+     * @param theGame Parameter for the Game that this is for.
      */
-    public InfoPanel(Game theGame)
+    public InfoPanel(final Game theGame)
     {
         this.myInfo = new JTextPane();
         this.myInfo.setBounds(0, 0, 200, 50);
@@ -39,10 +43,11 @@ public class InfoPanel extends JPanel
     }
 
     /**
-     *
-     * @param theGame
+     * This method changes the Health of the player when an
+     * answer is incorrect.
+     * @param theGame Parameter for the Game that this is for.
      */
-    public void changeHealthBar(Game theGame)
+    public void changeHealthBar(final Game theGame)
     {
         this.myHealth.setText("HEALTH: " + theGame.getHealth());
     }

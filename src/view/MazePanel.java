@@ -5,7 +5,9 @@ import javax.swing.*;
 import model.*;
 
 /**
- *
+ * This class creates a panel to be a part of the larger Game Board that represents
+ * the Maze display. It shows where the player and exit are at all times and changes
+ * when the player successfully answers a question to move their position.
  */
 public class MazePanel extends JPanel
 {
@@ -21,10 +23,11 @@ public class MazePanel extends JPanel
     private JLabel[][] myRoomImages;
 
     /**
-     *
+     * Default constructor that sets up all images and image icons that will be used
+     * in a 2D array to display the Maze to the user.
      * @param maze
      */
-    public MazePanel(Maze maze)
+    public MazePanel(final Maze maze)
     {
         emptyRoomFile = "EmptyRoom.jpeg";
         verticalDoorFile = "UnlockedVerticalDoor.jpeg";
@@ -32,6 +35,11 @@ public class MazePanel extends JPanel
 
         setLayout(null);
 
+        /**
+         * All of the below creates image icons for the links between rooms, or in other words
+         * the doors between rooms. Its mainly just flavor to make the maze look cleaner and
+         * better.
+         */
         JLabel lblHorizontalDoor_1_2_1_1 = new JLabel("");
         lblHorizontalDoor_1_2_1_1
                 .setIcon(new ImageIcon(horizontalDoorFile));
@@ -238,7 +246,11 @@ public class MazePanel extends JPanel
         lblNewLabel.setBounds(10, 30, 10, 20);
         add(lblNewLabel);
 
-        //
+        /**
+         * This array is used specifically for the rooms, the above logic attaches the
+         * doors and sets up the image icons used. Those image icons include, a room and all
+         * attached doors. This array then represents the entire Maze, in image form for the GUI.
+         */
         myRoomImages = new JLabel[][]
         {
                 { lblRoomRowOneColumnOne, lblRoomRowOneColumnTwo, lblRoomRowOneColumnThree, lblRoomRowOneColumnFour },
@@ -249,18 +261,18 @@ public class MazePanel extends JPanel
     }
 
     /**
-     *
-     * @param rowToSet
-     * @param columnToSet
-     * @param icon
+     * This method sets the room icon of a given room using a given parameter image icon.
+     * @param rowToSet The row position to set the room icon of.
+     * @param columnToSet The column position to set the room icon of.
+     * @param icon The image icon to use to set the room icon to.
      */
-    private void setRoomIcon(int rowToSet, int columnToSet, ImageIcon icon)
+    private void setRoomIcon(final int rowToSet, final int columnToSet, final ImageIcon icon)
     {
         this.myRoomImages[rowToSet][columnToSet].setIcon(icon);
     }
 
     /**
-     *
+     * This method sets the starting room or the room where the player begins the game.
      */
     public void setStartRoom()
     {
@@ -268,21 +280,21 @@ public class MazePanel extends JPanel
     }
 
     /**
-     *
-     * @param roomToSet
+     * This method sets the exit room of the Maze.
+     * @param roomToSet Game from which to set the room that the exit is in.
      */
-    public void setEndRoom(Game roomToSet)
+    public void setEndRoom(final Game roomToSet)
     {
         setRoomIcon(roomToSet.getSize() - 1, roomToSet.getSize() - 1, myIconExitRoom);
     }
 
     /**
-     *
-     * @param oldRow
-     * @param oldColumn
-     * @param newLocation
+     * This method sets the new position of the player when they get a question correct.
+     * @param oldRow The old row position that the player is in.
+     * @param oldColumn The old column position that the player is in.
+     * @param newLocation The new location to move the player to in the Maze.
      */
-    public void setCurrentRoom(int oldRow, int oldColumn, Game newLocation)
+    public void setCurrentRoom(final int oldRow, final int oldColumn, final Game newLocation)
     {
         setRoomIcon(oldRow, oldColumn, myIconEmptyRoom);
         setRoomIcon(newLocation.getCurrentRow(), newLocation.getCurrentColumn(), myIconCurrentRoom);

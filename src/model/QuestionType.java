@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Used to keep track of types of Question.
+ */
 public enum QuestionType {
     /**
      * Short Answer.

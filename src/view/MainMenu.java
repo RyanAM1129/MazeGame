@@ -8,10 +8,11 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- *
+ * This class creates the main menu JFrame and associated buttons for the Java Trivia Maze game.
  */
 public class MainMenu
 {
+    //Previous work attempting serialization
     private static final long serialVersionUID = 1L;
 
     private JFrame myStartMenu;
@@ -19,7 +20,8 @@ public class MainMenu
     private Timer myTimer;
 
     /**
-     *
+     * The default constructor simply calls on the start() method which contains all logic for
+     * creating and initializing the Main Menu and its functionality.
      */
     public MainMenu()
     {
@@ -27,7 +29,8 @@ public class MainMenu
     }
 
     /**
-     *
+     * This method creates, and initializes all functionality of the Main menu. It is left private for
+     * encapsulation reasons.
      */
     private void start()
     {
@@ -40,7 +43,7 @@ public class MainMenu
 
         this.myStartMenu = new JFrame("Java Trivia Maze");
 
-        //
+        //This try block is for the image file used in the background of the main menu
         try
         {
             final Image backgroundImage = javax.imageio.ImageIO.read(new File("startMenu.jpeg"));
@@ -53,7 +56,7 @@ public class MainMenu
                 }
             });
         }
-        catch (IOException e)
+        catch (final IOException e)
         {
             e.printStackTrace();
         }
@@ -65,13 +68,13 @@ public class MainMenu
         this.myTimer = new Timer(1000, new BlinkingText(myTitle));
         myTimer.start();
 
-        JButton startButton = new JButton("Play");
-        startButton.setBounds(250, 200, 100, 30);
+        JButton playButton = new JButton("Play");
+        playButton.setBounds(250, 200, 100, 30);
 
-        //
-        startButton.addActionListener(new ActionListener()
+        //The Play button starts a new game
+        playButton.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            public void actionPerformed(final ActionEvent e)
             {
                 myTimer.stop();
                 myStartMenu.dispose();
@@ -82,10 +85,10 @@ public class MainMenu
         JButton loadButton = new JButton("Load");
         loadButton.setBounds(250, 240, 100, 30);
 
-        //
+        //This button would have been the load button but does what the Play button does currently
         loadButton.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            public void actionPerformed(final ActionEvent e)
             {
                 myTimer.stop();
                 myStartMenu.dispose();
@@ -96,10 +99,10 @@ public class MainMenu
         JButton exitButton = new JButton("Exit");
         exitButton.setBounds(250, 280, 100, 30);
 
-        //
+        //This button simply closes the game when pressed
         exitButton.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            public void actionPerformed(final ActionEvent e)
             {
                 System.exit(0);
             }
@@ -107,7 +110,7 @@ public class MainMenu
 
         this.myStartMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.myStartMenu.add(myTitle);
-        this.myStartMenu.add(startButton);
+        this.myStartMenu.add(playButton);
         this.myStartMenu.add(loadButton);
         this.myStartMenu.add(exitButton);
         this.myStartMenu.setSize(600, 400);
@@ -115,8 +118,8 @@ public class MainMenu
     }
 
     /**
-     *
-     * @return
+     * Getter for the myStartMenu variable of this class.
+     * @return Returns the myStartMenu variable of this class.
      */
     public JFrame getStartMenu()
     {
