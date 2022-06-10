@@ -49,37 +49,56 @@ public class Maze {
         myRooms[myCurrentRow][myCurrentColumn].visit();
     }
 
-    public Room[][] getBoard() {
-        return myRooms;
-    }
-
+    /**
+     * Gets the size of the Maze. Because a Maze is always square,
+     * this is both length and width.
+     * @return the size of the Maze.
+     */
     public int getSize() {
         return mySize;
     }
 
+    /**
+     * Gets the row index of the current location.
+     */
     public int getCurrentRow() {
         return myCurrentRow;
     }
 
+    /**
+     * Gets the column index of the current location.
+     */
     public int getCurrentColumn() {
         return myCurrentColumn;
     }
 
-    public Room getLocation(int theRow, int theColumn) {
+    /**
+     * Gets the Room at a given location.
+     * @param theRow the row index for the desired location.
+     * @param theColumn the column index for the desired location.
+     */
+    public Room getLocation(final int theRow, final int theColumn) {
         return myRooms[theRow][theColumn];
     }
 
+    /**
+     * Gets the Room that the player is currently in.
+     */
     public Room getCurrentLocation() {
         return myRooms[myCurrentRow][myCurrentColumn];
     }
 
+    /**
+     * Returns a String representation of the Maze.
+     * @return the String version of the Maze.
+     */
     public String toString() {
         Room myCurrentLocation;
         RoomType myCurrentType;
         String myCurrentString;
         int buffer;
 
-        StringBuilder myStr = new StringBuilder();
+        final StringBuilder myStr = new StringBuilder();
         //Build top wall
         for (int i = 0; i <= 2 * mySize; i++) {
             if (i == 0) {
@@ -114,7 +133,7 @@ public class Maze {
                         myStr.append(myCurrentLocation.getEastDoor().toString());
                     }
                 } else {//Wall Row
-                    buffer = (i / 2) - 1;
+                    buffer = i / 2 - 1;
                     if(buffer < 0) {
                         buffer = 0;
                     }
