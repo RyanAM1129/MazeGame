@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Used to track the type of Room, based off of the location in the Maze.
+ */
 public enum RoomType {
     /**
      * A room in the top left-hand corner of the maze.

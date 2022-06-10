@@ -11,21 +11,60 @@ import java.sql.Statement;
 import java.util.Random;
 import java.util.Stack;
 
+/**
+ * Builds all the questions for a Maze and stores them in Stacks.
+ */
 public class QuestionBuilder {
-    int myTotalQuestionCount;
-    int myMultipleChoiceCount;
-    int myShortAnswerCount;
-    int myTrueFalseCount;
-    Stack<Question> myMultipleChoice;
-    Stack<Question> myShortAnswer;
-    Stack<Question> myTrueFalse;
-    Question myFinalQuestion;
-    SQLiteDataSource myDataSource;
-    Connection myConnection;
-    Statement myStatement;
+    /**
+     * The total number of questions for the Maze.
+     */
+    private final int myTotalQuestionCount;
+    /**
+     * The total number of Multiple Choice questions for the Maze.
+     */
+    private int myMultipleChoiceCount;
+    /**
+     * The total number of Short Answer questions for the Maze.
+     */
+    private int myShortAnswerCount;
+    /**
+     * The total number of True False questions for the Maze.
+     */
+    private int myTrueFalseCount;
+    /**
+     * The stack of created Multiple Choice questions.
+     */
+    private final Stack<Question> myMultipleChoice;
+    /**
+     * The stack of created Short Answer questions.
+     */
+    private final Stack<Question> myShortAnswer;
+    /**
+     * The stack of created Short Answer questions.
+     */
+    private final Stack<Question> myTrueFalse;
+    /**
+     * The Question for the final exit.
+     */
+    private Question myFinalQuestion;
+    /**
+     * The SQLite Data Source.
+     */
+    private SQLiteDataSource myDataSource;
+    /**
+     * The SQLite connection.
+     */
+    private Connection myConnection;
+    /**
+     * The SQLite statement.
+     */
+    private Statement myStatement;
 
+    /**
+     * Constructor for QuestionBuilder that take a given number of total Questions.
+     * @param theN the number of total Questions.
+     */
     public QuestionBuilder(final int theN) {
-        //Add one to account for the "final answer".
         myTotalQuestionCount = theN;
         determineRatio();
         establishConnection("jdbc:sqlite:questions.db");
@@ -34,6 +73,10 @@ public class QuestionBuilder {
         myTrueFalse = buildTrueFalse();
     }
 
+    /**
+     * Establishes the connection with the SQLite database using a given URL.
+     * @param theURL the given URL for the database.
+     */
     private void establishConnection(final String theURL) {
         try {
             myDataSource = new SQLiteDataSource();
@@ -46,6 +89,10 @@ public class QuestionBuilder {
         }
     }
 
+    /**
+     * Determines the number of Multiple Choice, Short Answer and True False questions
+     * using a ratio of 50%, 20%, and 30% respectively.
+     */
     private void determineRatio() {
         myMultipleChoiceCount = myTotalQuestionCount / 2;
         myShortAnswerCount = myTotalQuestionCount / 5;
@@ -53,6 +100,10 @@ public class QuestionBuilder {
                 (myMultipleChoiceCount + myShortAnswerCount);
     }
 
+    /**
+     * Builds all the Multiple Choice Questions, puts them in a stack, and returns them.
+     * @return the stack of Multiple Choice questions.
+     */
     private Stack<Question> buildMultipleChoices() {
         final String query = "SELECT * FROM multiple_choice ORDER BY RANDOM() LIMIT " +
                 myMultipleChoiceCount + ";";
@@ -80,6 +131,10 @@ public class QuestionBuilder {
         return myQuestionSet;
     }
 
+    /**
+     * Builds all the Short Answer Questions, puts them in a stack, and returns them.
+     * @return the stack of Short Answer questions.
+     */
     private Stack<Question> buildShortAnswers() {
         final String query = "SELECT * FROM short_answer ORDER BY RANDOM() LIMIT " +
                 (myShortAnswerCount + 1) + ";";
@@ -109,6 +164,10 @@ public class QuestionBuilder {
         return myQuestionSet;
     }
 
+    /**
+     * Builds all the True False Questions, puts them in a stack, and returns them.
+     * @return the stack of True False questions.
+     */
     private Stack<Question> buildTrueFalse() {
         final String query = "SELECT * FROM true_false ORDER BY RANDOM() LIMIT " +
                 myTrueFalseCount + ";";
@@ -133,6 +192,10 @@ public class QuestionBuilder {
         return myQuestionSet;
     }
 
+    /**
+     * Returns one Multiple Choice Question from the Stack of Multiple Choice Questions.
+     * @return the top Question of the Multiple Choice Question stack.
+     */
     public Question getMultipleChoice() {
         if (myMultipleChoice.size() > 0) {
             return myMultipleChoice.pop();
@@ -141,6 +204,10 @@ public class QuestionBuilder {
         }
     }
 
+    /**
+     * Returns one Short Answer Question from the Stack of Short Answer Questions.
+     * @return the top Question of the Short Answer Question stack.
+     */
     public Question getShortAnswer() {
         if (myShortAnswer.size() > 0) {
             return myShortAnswer.pop();
@@ -149,6 +216,10 @@ public class QuestionBuilder {
         }
     }
 
+    /**
+     * Returns one True False Questions from the Stack of True False Questions.
+     * @return the top Question of the True False Question stack.
+     */
     public Question getTrueFalse() {
         if (myTrueFalse.size() > 0) {
             return myTrueFalse.pop();
@@ -157,6 +228,10 @@ public class QuestionBuilder {
         }
     }
 
+    /**
+     * Returns a Question chosen randomly from the three different types.
+     * @return the random question.
+     */
     public Question getQuestion() {
         Random myRandom = new Random();
         int myRandomChoice = 1 + myRandom.nextInt(3);
@@ -166,7 +241,7 @@ public class QuestionBuilder {
             switch (myRandomChoice) {
                 case 1:
                     if (!myMultipleChoice.isEmpty()) {
-                        myQuestion = myMultipleChoice.pop();
+                        myQuestion = getMultipleChoice();
                         tryAgain = false;
                         break;
                     } else {
@@ -174,7 +249,7 @@ public class QuestionBuilder {
                     }
                 case 2:
                     if (!myShortAnswer.isEmpty()) {
-                        myQuestion = myShortAnswer.pop();
+                        myQuestion = getShortAnswer();
                         tryAgain = false;
                         break;
                     } else {
@@ -182,7 +257,7 @@ public class QuestionBuilder {
                     }
                 case 3:
                     if (!myTrueFalse.isEmpty()) {
-                        myQuestion = myTrueFalse.pop();
+                        myQuestion = getTrueFalse();
                         tryAgain = false;
                         break;
                     } else {
@@ -193,6 +268,10 @@ public class QuestionBuilder {
         return myQuestion;
     }
 
+    /**
+     * Returns the Question for the exit.
+     * @return the exit Question.
+     */
     public Question getFinalQuestion() {
         return myFinalQuestion;
     }

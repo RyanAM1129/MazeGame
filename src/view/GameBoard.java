@@ -14,13 +14,14 @@ import model.*;
  */
 public class GameBoard
 {
+    //Previous work attempting serialization
     private static final long serialVersionUID = 1L;
 
     private Game myGame;
     private MazePanel myMazePanel;
 
     private JFrame myBoard;
-    private JFrame endOfGame;
+    private JFrame myEndOfGame;
     private QuestionPanel myQuestionPanel;
     private InfoPanel myInfoPanel;
 
@@ -138,7 +139,7 @@ public class GameBoard
         }
     }
 
-    private void displayQuestion(Door theDoor)
+    private void displayQuestion(final Door theDoor)
     {
         this.myQuestionPanel.initializeQuestionData(theDoor.getQuestion());
         this.myQuestionPanel.setVisible(true);
@@ -154,7 +155,7 @@ public class GameBoard
         mySubmitButton.setEnabled(true);
     }
 
-    public void play(String fileName)
+    public void play(final String fileName)
     {
         try
         {
@@ -185,20 +186,20 @@ public class GameBoard
         message.setBounds(10, 10, 180, 20);
         message.setEditable(false);
 
-        endOfGame = new JFrame("Do you want to play again?");
-        endOfGame.setSize(200, 200);
-        endOfGame.setBounds(0, 0, 200, 200);
+        myEndOfGame = new JFrame("Do you want to play again?");
+        myEndOfGame.setSize(200, 200);
+        myEndOfGame.setBounds(0, 0, 200, 200);
 
         JButton yesButton = new JButton("Yes");
         yesButton.setBounds(30, 75, 60, 25);
 
         yesButton.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            public void actionPerformed(final ActionEvent e)
             {
                 myBoard.dispose();
                 buildBoard();
-                endOfGame.dispose();
+                myEndOfGame.dispose();
             }
         });
 
@@ -207,25 +208,25 @@ public class GameBoard
 
         noButton.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e)
+            public void actionPerformed(final ActionEvent e)
             {
                 System.exit(0);
             }
         });
 
-        endOfGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        endOfGame.setLayout(null);
+        myEndOfGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        myEndOfGame.setLayout(null);
 
-        endOfGame.add(message);
-        endOfGame.add(yesButton);
-        endOfGame.add(noButton);
-        endOfGame.setVisible(true);
+        myEndOfGame.add(message);
+        myEndOfGame.add(yesButton);
+        myEndOfGame.add(noButton);
+        myEndOfGame.setVisible(true);
     }
 
     ActionListener moveNorthButton = new ActionListener()
     {
         @Override
-        public void actionPerformed(ActionEvent event)
+        public void actionPerformed(final ActionEvent event)
         {
             displayQuestion(myGame.getCurrentLocation().getNorthDoor());
 
@@ -236,7 +237,7 @@ public class GameBoard
     ActionListener moveEastButton = new ActionListener()
     {
         @Override
-        public void actionPerformed(ActionEvent event)
+        public void actionPerformed(final ActionEvent event)
         {
             displayQuestion(myGame.getCurrentLocation().getEastDoor());
 
@@ -247,7 +248,7 @@ public class GameBoard
     ActionListener moveSouthButton = new ActionListener()
     {
         @Override
-        public void actionPerformed(ActionEvent event)
+        public void actionPerformed(final ActionEvent event)
         {
             displayQuestion(myGame.getCurrentLocation().getSouthDoor());
 
@@ -258,7 +259,7 @@ public class GameBoard
     ActionListener moveWestButton = new ActionListener()
     {
         @Override
-        public void actionPerformed(ActionEvent event)
+        public void actionPerformed(final ActionEvent event)
         {
             displayQuestion(myGame.getCurrentLocation().getWestDoor());
 
@@ -269,7 +270,7 @@ public class GameBoard
     ActionListener submitButton = new ActionListener()
     {
         @Override
-        public void actionPerformed(ActionEvent event)
+        public void actionPerformed(final ActionEvent event)
         {
             if (myQuestionPanel.isAnswerCorrect())
             {
