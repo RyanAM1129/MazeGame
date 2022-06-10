@@ -10,7 +10,9 @@ import java.awt.event.*;
 import model.*;
 
 /**
- *
+ * This class creates a JFrame that is the entire Game Board for the Java
+ * Trivia Maze Game. It calls on other classes that set up the panels of this
+ * JFrame to bring together the whole Game on this JFrame.
  */
 public class GameBoard
 {
@@ -37,6 +39,10 @@ public class GameBoard
     private boolean mySouthEnabled;
     private boolean myWestEnabled;
 
+    /**
+     * Default constructor for Game Board. It sets the
+     * enabled booleans to false by default.
+     */
     public GameBoard()
     {
         myNorthEnabled = false;
@@ -46,7 +52,11 @@ public class GameBoard
     }
 
     /**
-     *
+     * This method builds the Game Board which is a JFrame that the
+     * Game is played on. It sets all the sizes and texts that are
+     * displayed by default and ensures that the panels that
+     * make up this JFrame are also enabled and displayed where
+     * necessary for the start and default state of the game.
      */
     public void buildBoard()
     {
@@ -114,6 +124,10 @@ public class GameBoard
         checkDoors();
     }
 
+    /**
+     * This method checks the doors in the current room or current
+     * location to see which direction buttons to enable.
+     */
     private void checkDoors()
     {
         Room currLocation = myGame.getCurrentLocation();
@@ -139,6 +153,13 @@ public class GameBoard
         }
     }
 
+    /**
+     * This method displays a question when a direction that goes to a
+     * Door is chosen. It has a parameter for the Door to get a
+     * question from.
+     * @param theDoor Parameter for the Door that the question to display
+     *                will come from.
+     */
     private void displayQuestion(final Door theDoor)
     {
         this.myQuestionPanel.initializeQuestionData(theDoor.getQuestion());
@@ -155,8 +176,15 @@ public class GameBoard
         mySubmitButton.setEnabled(true);
     }
 
+    /**
+     * This method is for playing music. It takes a String
+     * parameter for the name of the music file and plays that
+     * music file.
+     * @param fileName Parameter for the name of the music file.
+     */
     public void play(final String fileName)
     {
+        //Try catch logic since we are dealing with file reading
         try
         {
             File file = new File(fileName);
@@ -171,6 +199,10 @@ public class GameBoard
         }
     }
 
+    /**
+     * This method does one thing and only one thing,
+     * it disables the movement buttons.
+     */
     private void disableMoveButtons()
     {
         this.myNorthButton.setEnabled(false);
@@ -179,6 +211,11 @@ public class GameBoard
         this.myWestButton.setEnabled(false);
     }
 
+    /**
+     * This method creates another JFrame that gives the player
+     * end of game options. For whether they want to play again or
+     * end the game.
+     */
     private void endGameOptions()
     {
         JTextPane message = new JTextPane();
@@ -223,6 +260,10 @@ public class GameBoard
         myEndOfGame.setVisible(true);
     }
 
+    /**
+     * Overriding the actionPerformed() method of the ActionListener class
+     * to create logic for the pressing of a north button for movement.
+     */
     ActionListener moveNorthButton = new ActionListener()
     {
         @Override
@@ -234,6 +275,10 @@ public class GameBoard
         }
     };
 
+    /**
+     * Overriding the actionPerformed() method of the ActionListener class
+     * to create logic for the pressing of an east button for movement.
+     */
     ActionListener moveEastButton = new ActionListener()
     {
         @Override
@@ -245,6 +290,10 @@ public class GameBoard
         }
     };
 
+    /**
+     * Overriding the actionPerformed() method of the ActionListener class
+     * to create logic for the pressing of a south button for movement.
+     */
     ActionListener moveSouthButton = new ActionListener()
     {
         @Override
@@ -256,6 +305,10 @@ public class GameBoard
         }
     };
 
+    /**
+     * Overriding the actionPerformed() method of the ActionListener class
+     * to create logic for the pressing of a west button for movement.
+     */
     ActionListener moveWestButton = new ActionListener()
     {
         @Override
@@ -267,6 +320,12 @@ public class GameBoard
         }
     };
 
+    /**
+     * Overriding the actionPerformed() method of the ActionListener class
+     * to create logic for the pressing of a submit button. When the enabled
+     * variables of this class are enabled, it calls a movement method
+     * to move the player's location in the Maze.
+     */
     ActionListener submitButton = new ActionListener()
     {
         @Override
