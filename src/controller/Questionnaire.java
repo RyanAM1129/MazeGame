@@ -14,7 +14,7 @@ public class Questionnaire {
      * Displays and asks a question for a Command Line Interface.
      * @return true if the answer was correct, false if not.
      */
-    public static boolean askQuestionCLI(Question theQuestion) {
+    public static boolean askQuestionCLI(final Question theQuestion) {
         Scanner myConsole = new Scanner(System.in);
         String theAnswer = "";
         System.out.println(theQuestion.getQuestion() + "\n");

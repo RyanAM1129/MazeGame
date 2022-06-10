@@ -18,47 +18,47 @@ public class QuestionBuilder {
     /**
      * The total number of questions for the Maze.
      */
-    int myTotalQuestionCount;
+    private final int myTotalQuestionCount;
     /**
      * The total number of Multiple Choice questions for the Maze.
      */
-    int myMultipleChoiceCount;
+    private int myMultipleChoiceCount;
     /**
      * The total number of Short Answer questions for the Maze.
      */
-    int myShortAnswerCount;
+    private int myShortAnswerCount;
     /**
      * The total number of True False questions for the Maze.
      */
-    int myTrueFalseCount;
+    private int myTrueFalseCount;
     /**
      * The stack of created Multiple Choice questions.
      */
-    Stack<Question> myMultipleChoice;
+    private final Stack<Question> myMultipleChoice;
     /**
      * The stack of created Short Answer questions.
      */
-    Stack<Question> myShortAnswer;
+    private final Stack<Question> myShortAnswer;
     /**
      * The stack of created Short Answer questions.
      */
-    Stack<Question> myTrueFalse;
+    private final Stack<Question> myTrueFalse;
     /**
      * The Question for the final exit.
      */
-    Question myFinalQuestion;
+    private Question myFinalQuestion;
     /**
      * The SQLite Data Source.
      */
-    SQLiteDataSource myDataSource;
+    private SQLiteDataSource myDataSource;
     /**
      * The SQLite connection.
      */
-    Connection myConnection;
+    private Connection myConnection;
     /**
      * The SQLite statement.
      */
-    Statement myStatement;
+    private Statement myStatement;
 
     /**
      * Constructor for QuestionBuilder that take a given number of total Questions.
