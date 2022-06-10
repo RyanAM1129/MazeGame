@@ -9,8 +9,13 @@ import model.RoomType;
 
 import java.util.Scanner;
 
+/**
+ * This class is for the CLI for the Java Trivia Maze. It is not nearly as
+ * complex as the GUI and it creates a console version of the game
+ * essentially.
+ */
 public class CLI {
-    public static void mainDisplay(Game theGame) {
+    public static void mainDisplay(final Game theGame) {
         Scanner myConsole = new Scanner(System.in);
         int myChoice;
         Room myLocation = theGame.getCurrentLocation();
@@ -69,6 +74,10 @@ public class CLI {
         }
     }
 
+    /**
+     * Displays the move options to the player in the console as numbers.
+     * @param theType Parameter for the type of the room that this is.
+     */
     private static void displayMoveOptions(final RoomType theType) {
         System.out.println("Please enter the number of your desired direction: ");
         switch (theType) {
@@ -101,11 +110,21 @@ public class CLI {
         }
     }
 
+    /**
+     * This method is used when the answer is incorrect.
+     * It displays a message to the console to let the player
+     * know they got the question wrong.
+     */
     private static void displayIncorrectAnswer() {
         System.out.println("!!!Sorry but the answer was incorrect!!!");
         //System.out.println("Press enter to continue...");
     }
 
+    /**
+     * THis method is used when the answer is correct.
+     * It displays a message to the console to let the player
+     * know they got the answer right.
+     */
     private static void displayCorrectAnswer() {
         System.out.println("Yay, that answer was correct!");
         //System.out.println("Press enter to continue...");
